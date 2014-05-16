@@ -6,9 +6,12 @@ import datetime
 import subprocess
 from crontab import CronTab
 from time import sleep
-import BBC_playlist
-import pywapi
-import texttospeech
+try:
+    import BBC_playlist
+    import pywapi
+    import texttospeech
+except:
+    pass
 
 wait_time = 1
 select = 1
