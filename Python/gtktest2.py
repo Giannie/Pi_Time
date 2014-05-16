@@ -208,9 +208,12 @@ class PyApp(gtk.Window):
         
         self.vbox = vbox
         
-    def clear_screen(self,widget):
+    def clear_screen(self,widget=None):
         for child in self.get_children():
             self.remove(child)
+    
+    def show_main_screen(self,widget=None):
+        pass
     
     def update_clock(self):
         self.clock_label.set_markup('<span color="purple">' + time.strftime('%H:%M:%S') + '</span>')
