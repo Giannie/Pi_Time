@@ -21,6 +21,7 @@ import sys
 
 class PyApp(gtk.Window):
     def __init__(self):
+        gtk.timeout_add(200, clock.update_clock)
         self.clock_color = '"purple"'
         self.text_color = "'purple'"
         self.output = ""
@@ -331,7 +332,7 @@ class PyApp(gtk.Window):
         self.cancel_set_alarm()
 
 clock = PyApp()
-gtk.timeout_add(200, clock.update_clock)
+#gtk.timeout_add(200, clock.update_clock)
 gtk.timeout_add(1000, clock.update_alarm)
 gtk.timeout_add(1000, clock.update_alarm_button)
 gtk.main()
