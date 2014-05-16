@@ -34,6 +34,7 @@ class PyApp(gtk.Window):
             self.fullscreen()
         
         self.create_main_screen()
+        self.create_set_alarm_screen()
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
         btn_on.child.set_use_markup(True)
@@ -41,90 +42,9 @@ class PyApp(gtk.Window):
         btn_off = gtk.Button('<span color="purple" font="15">Plug Off</span>')
         btn_off.child.set_use_markup(True)
         btn_off.connect("clicked",self.plug_off)
-        
-        btn_set_alarm_cancel = gtk.Button()
-        btn_set_alarm_cancel.set_label('<span color="purple" font="15">Cancel</span>')
-        btn_set_alarm_cancel.connect("clicked",self.cancel_set_alarm)
-        btn_set_alarm_cancel.child.set_use_markup(True)
-        
-        btn_set_alarm_screen = gtk.Button()
-        btn_set_alarm_screen.set_label('<span color="purple" font="15">Set Alarm</span>')
-        btn_set_alarm_screen.connect("clicked",self.set_alarm)
-        btn_set_alarm_screen.child.set_use_markup(True)
-        
 
-        
-        self.vbox_set_alarm = gtk.VBox(False, 0)
-        
-        self.set_alarm_table = gtk.Table(5,3,False)
-        
-        self.alarm_hour_setting = 7
-        self.alarm_minute_setting = 0
-        
-        self.alarm_minute = gtk.Label()
-        self.alarm_minute.modify_font(pango.FontDescription("helvetica 45"))
-        
-        self.alarm_hour = gtk.Label()
-        self.alarm_hour.modify_font(pango.FontDescription("helvetica 45"))
-        
-        self.update_alarm_set_screen()
-        
-        self.alarm_colon = gtk.Label()
-        self.alarm_colon.modify_font(pango.FontDescription("helvetica 45"))
-        self.alarm_colon.set_markup('<span color="purple">:</span>')
-        
-        self.set_alarm_table.attach(self.alarm_hour,0,1,0,1)
-        self.set_alarm_table.attach(self.alarm_colon,1,2,0,1)
-        self.set_alarm_table.attach(self.alarm_minute,2,3,0,1)
-        
-        hbox_set_alarm = gtk.HBox(False,0)
-        halign_set_alarm = gtk.Alignment(0.5,0,0,0)
-        halign_set_alarm.add(hbox_set_alarm)
-        
-        
-        
-        hbox_set_alarm.add(self.set_alarm_table)
-        
-        self.vbox_set_alarm.pack_end(halign_set_alarm,False,False,0)
-        
-        self.valign_set_alarm = gtk.Alignment(0.5,0.5,0,0)
-        self.valign_set_alarm.add(self.vbox_set_alarm)
-        
-        self.vbox_set_alarm_window = gtk.VBox(False,0)
-        pause_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE,gtk.ICON_SIZE_LARGE_TOOLBAR)
-        self.vbox_set_alarm_window.pack_start(self.valign_set_alarm)
-#        vbox_set_alarm_buttons = gtk.VBox(False,0)
-        valign_set_alarm_buttons = gtk.Alignment(0.5,1,0,0)
-        hbox_set_alarm_buttons = gtk.HBox(True,5)
-        halign_set_alarm_buttons = gtk.Alignment(0,0,0,0)
-        halign_set_alarm_buttons.add(hbox_set_alarm_buttons)
-        hbox_set_alarm_buttons.add(btn_set_alarm_screen)
-        hbox_set_alarm_buttons.add(btn_set_alarm_cancel)
-        valign_set_alarm_buttons.add(halign_set_alarm_buttons)
-        self.vbox_set_alarm_window.pack_end(valign_set_alarm_buttons)
-        
-        self.add_hour_btn = gtk.Button()
-        self.subtract_hour_btn = gtk.Button()
-        add_image = gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_LARGE_TOOLBAR)
-        add_image2 = gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_LARGE_TOOLBAR)
-        subtract_image = gtk.image_new_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_LARGE_TOOLBAR)
-        subtract_image2 = gtk.image_new_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_LARGE_TOOLBAR)
-#        self.add_minute_btn = gtk.Button(stock=gtk.STOCK_ADD)
-        self.add_minute_btn = gtk.Button()
-        self.add_minute_btn.add(add_image)
-        self.subtract_minute_btn = gtk.Button()
-        self.subtract_minute_btn.add(subtract_image)
-        self.add_hour_btn.add(add_image2)
-        self.subtract_hour_btn.add(subtract_image2)
-        self.set_alarm_table.attach(self.add_hour_btn,0,1,1,2)
-        self.set_alarm_table.attach(self.subtract_hour_btn,0,1,2,3)
-        self.set_alarm_table.attach(self.add_minute_btn,2,3,1,2)
-        self.set_alarm_table.attach(self.subtract_minute_btn,2,3,2,3)
-        
-        self.add_hour_btn.connect("clicked", self.change_alarm_screen)
-        self.subtract_hour_btn.connect("clicked", self.change_alarm_screen)
-        self.add_minute_btn.connect("clicked", self.change_alarm_screen)
-        self.subtract_minute_btn.connect("clicked", self.change_alarm_screen)
+#        pause_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE,gtk.ICON_SIZE_LARGE_TOOLBAR)
+
 
 #        fix=gtk.Fixed()
 #        fix.put(self.clock_label,20,20)
@@ -150,7 +70,7 @@ class PyApp(gtk.Window):
         self.update_alarm()
         btn_menu = gtk.Button('<span color="purple" font="14">Menu</span>')
         btn_menu.child.set_use_markup(True)
-        btn_menu.connect("clicked", self.clear_screen)
+#        btn_menu.connect("clicked", self.clear_screen)
         btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
         btn_toggle_alarm.child.set_use_markup(True)
         btn_toggle_alarm.connect("clicked", self.toggle_alarm)
@@ -176,7 +96,7 @@ class PyApp(gtk.Window):
         #valign2 = gtk.Alignment(0, 0, 0, 0)
         #valign2.add(main_screen_text_vbox)
         
-        vbox3 = gtk.VBox(False, 0)
+        vbox_main_buttons = gtk.VBox(False, 0)
 
         hbox_main_clock.add(self.clock_label)
         hbox_main_alarm.add(self.alarm_label)
@@ -192,20 +112,104 @@ class PyApp(gtk.Window):
         halign_main_alarm = gtk.Alignment(0.5,0,0,0)
         halign_main_alarm.add(hbox_main_alarm)
         
-        halign3 = gtk.Alignment(0.5,0,0,0)
-        halign3.add(hbox_main_buttons)
+        halign_main_buttons = gtk.Alignment(0.5,0,0,0)
+        halign_main_buttons.add(hbox_main_buttons)
         
         
         main_screen_text_vbox.pack_start(halign_main_clock, False,False,10)
         main_screen_text_vbox.pack_start(halign_date, False, False, 0)
         main_screen_text_vbox.pack_start(halign_main_alarm,False,False,10)
-        vbox3.pack_end(halign3, False, False, 0)
+        vbox_main_buttons.pack_end(halign_main_buttons, False, False, 0)
         
         main_screen_vbox.pack_start(main_screen_text_vbox)
-        main_screen_vbox.pack_start(vbox3)
+        main_screen_vbox.pack_start(vbox_main_buttons)
         
         self.main_screen_vbox = main_screen_vbox
-        
+
+    def create_set_alarm_screen(self):
+        btn_set_alarm_cancel = gtk.Button()
+        btn_set_alarm_cancel.set_label('<span color="purple" font="15">Cancel</span>')
+        btn_set_alarm_cancel.connect("clicked",self.cancel_set_alarm)
+        btn_set_alarm_cancel.child.set_use_markup(True)
+
+        btn_set_alarm_screen = gtk.Button()
+        btn_set_alarm_screen.set_label('<span color="purple" font="15">Set Alarm</span>')
+        btn_set_alarm_screen.connect("clicked",self.set_alarm)
+        btn_set_alarm_screen.child.set_use_markup(True)
+
+
+
+        self.vbox_set_alarm = gtk.VBox(False, 0)
+
+        self.set_alarm_table = gtk.Table(5,3,False)
+
+        self.alarm_hour_setting = 7
+        self.alarm_minute_setting = 0
+
+        self.alarm_minute = gtk.Label()
+        self.alarm_minute.modify_font(pango.FontDescription("helvetica 45"))
+
+        self.alarm_hour = gtk.Label()
+        self.alarm_hour.modify_font(pango.FontDescription("helvetica 45"))
+
+        self.update_alarm_set_screen()
+
+        self.alarm_colon = gtk.Label()
+        self.alarm_colon.modify_font(pango.FontDescription("helvetica 45"))
+        self.alarm_colon.set_markup('<span color="purple">:</span>')
+
+        self.set_alarm_table.attach(self.alarm_hour,0,1,0,1)
+        self.set_alarm_table.attach(self.alarm_colon,1,2,0,1)
+        self.set_alarm_table.attach(self.alarm_minute,2,3,0,1)
+
+        hbox_set_alarm = gtk.HBox(False,0)
+        halign_set_alarm = gtk.Alignment(0.5,0,0,0)
+        halign_set_alarm.add(hbox_set_alarm)
+
+
+
+        hbox_set_alarm.add(self.set_alarm_table)
+
+        self.vbox_set_alarm.pack_end(halign_set_alarm,False,False,0)
+
+        self.valign_set_alarm = gtk.Alignment(0.5,0.5,0,0)
+        self.valign_set_alarm.add(self.vbox_set_alarm)
+
+        self.vbox_set_alarm_window = gtk.VBox(False,0)
+        self.vbox_set_alarm_window.pack_start(self.valign_set_alarm)
+#        vbox_set_alarm_buttons = gtk.VBox(False,0)
+        valign_set_alarm_buttons = gtk.Alignment(0.5,1,0,0)
+        hbox_set_alarm_buttons = gtk.HBox(True,5)
+        halign_set_alarm_buttons = gtk.Alignment(0,0,0,0)
+        halign_set_alarm_buttons.add(hbox_set_alarm_buttons)
+        hbox_set_alarm_buttons.add(btn_set_alarm_screen)
+        hbox_set_alarm_buttons.add(btn_set_alarm_cancel)
+        valign_set_alarm_buttons.add(halign_set_alarm_buttons)
+        self.vbox_set_alarm_window.pack_end(valign_set_alarm_buttons)
+
+        self.add_hour_btn = gtk.Button()
+        self.subtract_hour_btn = gtk.Button()
+        add_image = gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        add_image2 = gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        subtract_image = gtk.image_new_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        subtract_image2 = gtk.image_new_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_LARGE_TOOLBAR)
+#        self.add_minute_btn = gtk.Button(stock=gtk.STOCK_ADD)
+        self.add_minute_btn = gtk.Button()
+        self.add_minute_btn.add(add_image)
+        self.subtract_minute_btn = gtk.Button()
+        self.subtract_minute_btn.add(subtract_image)
+        self.add_hour_btn.add(add_image2)
+        self.subtract_hour_btn.add(subtract_image2)
+        self.set_alarm_table.attach(self.add_hour_btn,0,1,1,2)
+        self.set_alarm_table.attach(self.subtract_hour_btn,0,1,2,3)
+        self.set_alarm_table.attach(self.add_minute_btn,2,3,1,2)
+        self.set_alarm_table.attach(self.subtract_minute_btn,2,3,2,3)
+
+        self.add_hour_btn.connect("clicked", self.change_alarm_screen)
+        self.subtract_hour_btn.connect("clicked", self.change_alarm_screen)
+        self.add_minute_btn.connect("clicked", self.change_alarm_screen)
+        self.subtract_minute_btn.connect("clicked", self.change_alarm_screen)
+
     def clear_screen(self,widget=None):
         for child in self.get_children():
             self.remove(child)
