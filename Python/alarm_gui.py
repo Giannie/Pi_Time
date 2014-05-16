@@ -250,7 +250,7 @@ class PyApp(gtk.Window):
         self.show_all()
     
     def update_clock(self):
-        self.clock_label.set_markup('<span color=' + self.font_color + '>' + time.strftime('%H:%M:%S') + '</span>')
+        self.clock_label.set_markup('<span color=' + self.text_color + '>' + time.strftime('%H:%M:%S') + '</span>')
         self.date_label.set_markup('<span color="purple">' + time.strftime('%A %d/%m/%Y') + '</span>')
         return True
     
