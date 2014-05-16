@@ -317,7 +317,7 @@ class PyApp(gtk.Window):
         elif widget == self.subtract_minute_btn:
             self.alarm_minute_setting -= 5
         self.alarm_hour_setting = self.alarm_hour_setting % 24
-        self.alarm_minute_setting = self.alarm_minute_setting % 60
+        self.alarm_minute_setting %= 60
         self.update_alarm_set_screen()
     
     def update_alarm_set_screen(self):
@@ -334,4 +334,4 @@ clock = PyApp()
 gtk.timeout_add(200, clock.update_clock)
 gtk.timeout_add(1000, clock.update_alarm)
 gtk.timeout_add(1000, clock.update_alarm_button)
-gtk.main() 
+gtk.main()
