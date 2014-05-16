@@ -21,7 +21,7 @@ import sys
 
 class PyApp(gtk.Window):
     def __init__(self):
-        self.text_color = "white"
+        self.text_color = '"white"'
         self.output = ""
         self.line2 = ""
         super(PyApp, self).__init__()
