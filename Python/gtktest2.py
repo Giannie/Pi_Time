@@ -209,6 +209,7 @@ class PyApp(gtk.Window):
         self.vbox = vbox
         
     def clear_screen(self,widget=None):
+        print widget
         for child in self.get_children():
             self.remove(child)
     
