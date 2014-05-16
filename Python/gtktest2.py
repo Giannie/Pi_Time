@@ -93,7 +93,7 @@ class PyApp(gtk.Window):
         self.vbox_set_alarm_window = gtk.VBox(False,0)
         pause_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE,gtk.ICON_SIZE_LARGE_TOOLBAR)
         self.vbox_set_alarm_window.pack_start(self.valign_set_alarm)
-        vbox_set_alarm_buttons = gtk.VBox(False,0)
+#        vbox_set_alarm_buttons = gtk.VBox(False,0)
         valign_set_alarm_buttons = gtk.Alignment(0.5,1,0,0)
         hbox_set_alarm_buttons = gtk.HBox(True,5)
         halign_set_alarm_buttons = gtk.Alignment(0,0,0,0)
@@ -125,8 +125,7 @@ class PyApp(gtk.Window):
         self.subtract_hour_btn.connect("clicked", self.change_alarm_screen)
         self.add_minute_btn.connect("clicked", self.change_alarm_screen)
         self.subtract_minute_btn.connect("clicked", self.change_alarm_screen)
-        
-        
+
 #        fix=gtk.Fixed()
 #        fix.put(self.clock_label,20,20)
 #        fix.put(self.alarm_label,20,60)
@@ -139,7 +138,6 @@ class PyApp(gtk.Window):
         self.show_main_screen()
         self.shown = True
 
-    
     def create_main_screen(self):
         self.clock_label = gtk.Label()
         self.clock_label.modify_font(pango.FontDescription("helvetica 40"))
@@ -162,11 +160,12 @@ class PyApp(gtk.Window):
         btn_set_alarm.connect("clicked", self.set_alarm_screen)
         self.btn_set_alarm = btn_set_alarm
         vbox = gtk.VBox(False, 0)
-        hbox = gtk.HBox(False, 5)
-        hbox2 = gtk.HBox(False,5)
-        hbox3 = gtk.HBox(True,1)
-        hbox_date = gtk.HBox(False,5)
-        halign_date = gtk.Alignment(0.5,0,0,0)
+        hbox_main_clock = gtk.HBox(False, 5)
+        hbox_main_alarm = gtk.HBox(False, 5)
+        hbox_main_buttons = gtk.HBox(True, 1)
+        hbox_date = gtk.HBox(False, 5)
+
+        halign_date = gtk.Alignment(0.5, 0, 0, 0)
         halign_date.add(hbox_date)
         hbox_date.add(self.date_label)
         valign = gtk.Alignment(0, 1, 0, 0)
@@ -178,27 +177,27 @@ class PyApp(gtk.Window):
         
         vbox3 = gtk.VBox(False, 0)
 
-        hbox.add(self.clock_label)
-        hbox2.add(self.alarm_label)
-        hbox3.add(btn_toggle_alarm)
-        hbox3.add(btn_set_alarm)
-        hbox3.add(btn_menu)
+        hbox_main_clock.add(self.clock_label)
+        hbox_main_alarm.add(self.alarm_label)
+        hbox_main_buttons.add(btn_toggle_alarm)
+        hbox_main_buttons.add(btn_set_alarm)
+        hbox_main_buttons.add(btn_menu)
               
 
         
-        halign = gtk.Alignment(0.5,0,0,0)
-        halign.add(hbox)
+        halign_main_clock = gtk.Alignment(0.5,0,0,0)
+        halign_main_clock.add(hbox_main_clock)
         
-        halign2 = gtk.Alignment(0.5,0,0,0)
-        halign2.add(hbox2)
+        halign_main_alarm = gtk.Alignment(0.5,0,0,0)
+        halign_main_alarm.add(hbox_main_alarm)
         
         halign3 = gtk.Alignment(0.5,0,0,0)
-        halign3.add(hbox3)
+        halign3.add(hbox_main_buttons)
         
         
-        vbox2.pack_start(halign, False,False,10)
+        vbox2.pack_start(halign_main_clock, False,False,10)
         vbox2.pack_start(halign_date, False, False, 0)
-        vbox2.pack_start(halign2,False,False,10)
+        vbox2.pack_start(halign_main_alarm,False,False,10)
         vbox3.pack_end(halign3, False, False, 0)
         
         vbox.pack_start(vbox2)
