@@ -1,0 +1,7 @@
+Add @python ~/gtktest2.py to /etc/xdg/lxsession/LXDE/autostart
+
+For rc.local:
+sh -c "echo 252 > /sys/class/gpio/export"
+sh -c "echo 'out' > /sys/class/gpio/gpio252/direction"
+sh -c "echo '1' > /sys/class/gpio/gpio252/value"
+DISPLAY=:0.0 python /home/pi/screen_control.py &

@@ -262,7 +262,7 @@ class PyApp(gtk.Window):
             self.add(self.vbox)
             self.show_all()
         self.shown = not(self.shown)
-    
+
     def set_alarm_screen(self,widget=None):
         self.clear_screen()
         self.add(self.vbox_set_alarm_window)
