@@ -21,6 +21,7 @@ import sys
 
 class PyApp(gtk.Window):
     def __init__(self):
+        self.text_color = "white"
         self.output = ""
         self.line2 = ""
         super(PyApp, self).__init__()
@@ -69,7 +70,7 @@ class PyApp(gtk.Window):
 
         self.update_clock()
         self.update_alarm()
-        btn_menu = gtk.Button('<span color="purple" font="14">Menu</span>')
+        btn_menu = gtk.Button('<span color=' + self.text_color + 'font="14">Menu</span>')
         btn_menu.child.set_use_markup(True)
         btn_menu.connect("clicked", self.show_menu_screen)
         btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
@@ -249,7 +250,7 @@ class PyApp(gtk.Window):
         self.show_all()
     
     def update_clock(self):
-        self.clock_label.set_markup('<span color="purple">' + time.strftime('%H:%M:%S') + '</span>')
+        self.clock_label.set_markup('<span color=' + self.font_color + '>' + time.strftime('%H:%M:%S') + '</span>')
         self.date_label.set_markup('<span color="purple">' + time.strftime('%A %d/%m/%Y') + '</span>')
         return True
     
