@@ -32,22 +32,16 @@ class PyApp(gtk.Window):
             self.set_size_request(320, 240)
         else:
             self.fullscreen()
-        self.clock_label = gtk.Label()
-        self.clock_label.modify_font(pango.FontDescription("helvetica 40"))
-        self.date_label = gtk.Label()
-        self.date_label.modify_font(pango.FontDescription("helvetica 24"))
-        self.alarm_label = gtk.Label()
-        self.alarm_label.modify_font(pango.FontDescription("helvetica 24"))
-        self.update_clock()
-        self.update_alarm()
+        
+        self.create_main_screen()
+        
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
         btn_on.child.set_use_markup(True)
         btn_on.connect("clicked", self.plug_on)
         btn_off = gtk.Button('<span color="purple" font="15">Plug Off</span>')
         btn_off.child.set_use_markup(True)
         btn_off.connect("clicked",self.plug_off)
-        btn_menu = gtk.Button('<span color="purple" font="14">Menu</span>')
-        btn_menu.child.set_use_markup(True)
+        
         btn_set_alarm_cancel = gtk.Button()
         btn_set_alarm_cancel.set_label('<span color="purple" font="15">Cancel</span>')
         btn_set_alarm_cancel.connect("clicked",self.cancel_set_alarm)
@@ -58,59 +52,6 @@ class PyApp(gtk.Window):
         btn_set_alarm_screen.connect("clicked",self.set_alarm)
         btn_set_alarm_screen.child.set_use_markup(True)
         
-        btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
-        btn_toggle_alarm.child.set_use_markup(True)
-        btn_toggle_alarm.connect("clicked", self.toggle_alarm)
-        self.btn_toggle_alarm = btn_toggle_alarm
-        self.update_alarm_button()
-        
-        btn_set_alarm = gtk.Button('<span color="purple" font="14">Set Alarm</span>')
-        btn_set_alarm.child.set_use_markup(True)
-        btn_set_alarm.connect("clicked", self.set_alarm_screen)
-        self.btn_set_alarm = btn_set_alarm
-        
-        vbox = gtk.VBox(False, 0)
-        hbox = gtk.HBox(False, 5)
-        hbox2 = gtk.HBox(False,5)
-        hbox3 = gtk.HBox(True,1)
-        hbox_date = gtk.HBox(False,5)
-        halign_date = gtk.Alignment(0.5,0,0,0)
-        halign_date.add(hbox_date)
-        hbox_date.add(self.date_label)
-        valign = gtk.Alignment(0, 1, 0, 0)
-        #vbox.pack_end(valign)
-        
-        vbox2 = gtk.VBox(False, 0)
-        valign2 = gtk.Alignment(0, 0, 0, 0)
-        #valign2.add(vbox2)
-        
-        vbox3 = gtk.VBox(False, 0)
-
-        hbox.add(self.clock_label)
-        hbox2.add(self.alarm_label)
-        hbox3.add(btn_toggle_alarm)
-        hbox3.add(btn_set_alarm)
-        hbox3.add(btn_menu)
-              
-
-        
-        halign = gtk.Alignment(0.5,0,0,0)
-        halign.add(hbox)
-        
-        halign2 = gtk.Alignment(0.5,0,0,0)
-        halign2.add(hbox2)
-        
-        halign3 = gtk.Alignment(0.5,0,0,0)
-        halign3.add(hbox3)
-        
-        
-        vbox2.pack_start(halign, False,False,10)
-        vbox2.pack_start(halign_date, False, False, 0)
-        vbox2.pack_start(halign2,False,False,10)
-        vbox3.pack_end(halign3, False, False, 0)
-        
-        vbox.pack_start(vbox2)
-        vbox.pack_start(vbox3)
 
         
         self.vbox_set_alarm = gtk.VBox(False, 0)
@@ -185,7 +126,6 @@ class PyApp(gtk.Window):
         self.add_minute_btn.connect("clicked", self.change_alarm_screen)
         self.subtract_minute_btn.connect("clicked", self.change_alarm_screen)
         
-        self.vbox = vbox
         
 #        fix=gtk.Fixed()
 #        fix.put(self.clock_label,20,20)
@@ -201,6 +141,72 @@ class PyApp(gtk.Window):
         self.shown = True
         print dir(self.get_children())
         print self.vbox.get_children()
+    
+    def create_main_screen(self):
+        self.clock_label = gtk.Label()
+        self.clock_label.modify_font(pango.FontDescription("helvetica 40"))
+        self.date_label = gtk.Label()
+        self.date_label.modify_font(pango.FontDescription("helvetica 24"))
+        self.alarm_label = gtk.Label()
+        self.alarm_label.modify_font(pango.FontDescription("helvetica 24"))
+        self.update_clock()
+        self.update_alarm()
+        btn_menu = gtk.Button('<span color="purple" font="14">Menu</span>')
+        btn_menu.child.set_use_markup(True)
+        btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
+        btn_toggle_alarm.child.set_use_markup(True)
+        btn_toggle_alarm.connect("clicked", self.toggle_alarm)
+        self.btn_toggle_alarm = btn_toggle_alarm
+        self.update_alarm_button()
+        btn_set_alarm = gtk.Button('<span color="purple" font="14">Set Alarm</span>')
+        btn_set_alarm.child.set_use_markup(True)
+        btn_set_alarm.connect("clicked", self.set_alarm_screen)
+        self.btn_set_alarm = btn_set_alarm
+        vbox = gtk.VBox(False, 0)
+        hbox = gtk.HBox(False, 5)
+        hbox2 = gtk.HBox(False,5)
+        hbox3 = gtk.HBox(True,1)
+        hbox_date = gtk.HBox(False,5)
+        halign_date = gtk.Alignment(0.5,0,0,0)
+        halign_date.add(hbox_date)
+        hbox_date.add(self.date_label)
+        valign = gtk.Alignment(0, 1, 0, 0)
+        #vbox.pack_end(valign)
+        
+        vbox2 = gtk.VBox(False, 0)
+        valign2 = gtk.Alignment(0, 0, 0, 0)
+        #valign2.add(vbox2)
+        
+        vbox3 = gtk.VBox(False, 0)
+
+        hbox.add(self.clock_label)
+        hbox2.add(self.alarm_label)
+        hbox3.add(btn_toggle_alarm)
+        hbox3.add(btn_set_alarm)
+        hbox3.add(btn_menu)
+              
+
+        
+        halign = gtk.Alignment(0.5,0,0,0)
+        halign.add(hbox)
+        
+        halign2 = gtk.Alignment(0.5,0,0,0)
+        halign2.add(hbox2)
+        
+        halign3 = gtk.Alignment(0.5,0,0,0)
+        halign3.add(hbox3)
+        
+        
+        vbox2.pack_start(halign, False,False,10)
+        vbox2.pack_start(halign_date, False, False, 0)
+        vbox2.pack_start(halign2,False,False,10)
+        vbox3.pack_end(halign3, False, False, 0)
+        
+        vbox.pack_start(vbox2)
+        vbox.pack_start(vbox3)
+        
+        self.vbox = vbox
+        
     
     def update_clock(self):
         self.clock_label.set_markup('<span color="purple">' + time.strftime('%H:%M:%S') + '</span>')
