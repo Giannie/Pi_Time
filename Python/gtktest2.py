@@ -136,7 +136,7 @@ class PyApp(gtk.Window):
 #        fix2.put(btn2,20,130)
 #        self.fix2 = fix2
 #        self.add(fix)
-        self.add(vbox)
+        self.add(self.vbox)
         self.show_all()
         self.shown = True
         print dir(self.get_children())
