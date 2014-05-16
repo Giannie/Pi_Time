@@ -108,7 +108,7 @@ class PyApp(gtk.Window):
         hbox_main_buttons.add(btn_set_alarm)
         hbox_main_buttons.add(btn_menu)
 
-        print hbox_main_buttons.get_size_request()
+        hbox_main_buttons.set_size_request(30,-1)
               
 
         
