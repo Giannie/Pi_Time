@@ -136,11 +136,9 @@ class PyApp(gtk.Window):
 #        fix2.put(btn2,20,130)
 #        self.fix2 = fix2
 #        self.add(fix)
-        self.add(self.vbox)
-        self.show_all()
+        self.show_main_screen()
         self.shown = True
-        print dir(self.get_children())
-        print self.vbox.get_children()
+
     
     def create_main_screen(self):
         self.clock_label = gtk.Label()
@@ -206,15 +204,15 @@ class PyApp(gtk.Window):
         vbox.pack_start(vbox2)
         vbox.pack_start(vbox3)
         
-        self.vbox = vbox
+        self.main_screen_vbox = vbox
         
     def clear_screen(self,widget=None):
-        print widget
         for child in self.get_children():
             self.remove(child)
     
     def show_main_screen(self,widget=None):
-        pass
+        self.add(self.main_screen_vbox)
+        self.show_all()
     
     def update_clock(self):
         self.clock_label.set_markup('<span color="purple">' + time.strftime('%H:%M:%S') + '</span>')
