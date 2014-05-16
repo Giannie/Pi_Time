@@ -245,6 +245,7 @@ class PyApp(gtk.Window):
     
     def toggle_alarm(self, widget=None):
         alarm_time.toggle_alarm()
+        self.update_alarm()
     
     def on_clicked(self, widget=None):
         if self.shown:
