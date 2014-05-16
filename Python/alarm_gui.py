@@ -294,6 +294,8 @@ class PyApp(gtk.Window):
     
     def set_alarm(self,widget=None):
         alarm_time.set_alarm(int(self.alarm_hour_setting), int(self.alarm_minute_setting), True)
+        self.update_alarm()
+        self.update_alarm_button()
         self.cancel_set_alarm()
 
 clock = PyApp()
