@@ -136,6 +136,7 @@ def set_alarm(hour, minute, on):
     cron.write()
     return
 
+
 def toggle_alarm():
     cron = CronTab('pi')
     job = cron.find_comment('Alarm').next()
@@ -144,6 +145,7 @@ def toggle_alarm():
         job.enable(False)
     else:
         job.enable()
+    cron.write()
 
 def mpc_artists():
     art = []
