@@ -22,7 +22,7 @@ import sys
 class PyApp(gtk.Window):
     def __init__(self):
         a = gtk.timeout_add(200, self.update_clock)
-        a.source_remove()
+        gtk.source_remove(a)
         self.clock_color = '"purple"'
         self.text_color = "'purple'"
         self.output = ""
