@@ -757,6 +757,25 @@ def ip_menu(lcd):
         sleep(0.1)
 
 
+def get_ip_address(interface):
+    if interface == "ethernet":
+        inter = "eth0"
+    elif interface == "wifi":
+        inter = "wlan0"
+    else:
+        print "Interface must be wifi or ethernet"
+        return False
+    p1 = subprocess.Popen(["ifconfig", inter], stdout=subprocess.PIPE)
+    p2 = subprocess.Popen(["grep", "inet"], stdin=p1.stdout, stdout=subprocess.PIPE)
+    ip_address = p2.stdout.read()
+    if len(ip_address) == 0:
+        ip_address = "Not connected"
+    else:
+        ip_address = ip_address.split(' ')
+        ip_address = ip_address[11][5:]
+    return ip_address
+
+
 def arrows(lcd):
     lcd.write(0xCF)
     lcd.write(3, True)
