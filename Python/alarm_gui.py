@@ -70,7 +70,7 @@ class PyApp(gtk.Window):
         self.update_alarm()
         btn_menu = gtk.Button('<span color="purple" font="14">Menu</span>')
         btn_menu.child.set_use_markup(True)
-#        btn_menu.connect("clicked", self.clear_screen)
+        btn_menu.connect("clicked", self.show_menu_screen)
         btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
         btn_toggle_alarm.child.set_use_markup(True)
         btn_toggle_alarm.connect("clicked", self.toggle_alarm)
@@ -210,11 +210,40 @@ class PyApp(gtk.Window):
         self.add_minute_btn.connect("clicked", self.change_alarm_screen)
         self.subtract_minute_btn.connect("clicked", self.change_alarm_screen)
 
+    def create_menu_screen(self):
+        system_button = gtk.Button('<span color="purple" font="15">System</span>')
+        music_button = gtk.Button('<span color="purple" font="15">Music</span>')
+        cancel_button = gtk.Button('<span color="purple" font="15">Cancel</span>')
+
+        system_button.child.set_use_markup(True)
+        music_button.child.set_use_markup(True)
+        cancel_button.child.set_use_markup(True)
+
+        cancel_button.connect("clicked", self.menu_cancel)
+
+        menu_vbox = gtk.VBox(True, 0)
+
+        menu_vbox.pack_start(system_button)
+        menu_vbox.pack_start(music_button)
+        menu_vbox.pack_start(cancel_button)
+
+        self.menu_vbox = menu_vbox
+
+    def show_menu_screen(self, widget=None):
+        self.clear_screen()
+        self.add(self.menu_vbox)
+        self.show_all()
+
+    def menu_cancel(self, widget=None):
+        self.show_main_screen()
+
+
     def clear_screen(self,widget=None):
         for child in self.get_children():
             self.remove(child)
     
     def show_main_screen(self,widget=None):
+        self.clear_screen()
         self.add(self.main_screen_vbox)
         self.show_all()
     
