@@ -145,6 +145,7 @@ class PyApp(gtk.Window):
         self.date_label.modify_font(pango.FontDescription("helvetica 24"))
         self.alarm_label = gtk.Label()
         self.alarm_label.modify_font(pango.FontDescription("helvetica 24"))
+
         self.update_clock()
         self.update_alarm()
         btn_menu = gtk.Button('<span color="purple" font="14">Menu</span>')
@@ -159,7 +160,7 @@ class PyApp(gtk.Window):
         btn_set_alarm.child.set_use_markup(True)
         btn_set_alarm.connect("clicked", self.set_alarm_screen)
         self.btn_set_alarm = btn_set_alarm
-        vbox = gtk.VBox(False, 0)
+        main_screen_vbox = gtk.VBox(False, 0)
         hbox_main_clock = gtk.HBox(False, 5)
         hbox_main_alarm = gtk.HBox(False, 5)
         hbox_main_buttons = gtk.HBox(True, 1)
@@ -168,12 +169,12 @@ class PyApp(gtk.Window):
         halign_date = gtk.Alignment(0.5, 0, 0, 0)
         halign_date.add(hbox_date)
         hbox_date.add(self.date_label)
-        valign = gtk.Alignment(0, 1, 0, 0)
-        #vbox.pack_end(valign)
+        #valign = gtk.Alignment(0, 1, 0, 0)
+        #main_screen_vbox.pack_end(valign)
         
-        vbox2 = gtk.VBox(False, 0)
-        valign2 = gtk.Alignment(0, 0, 0, 0)
-        #valign2.add(vbox2)
+        main_screen_text_vbox = gtk.VBox(False, 0)
+        #valign2 = gtk.Alignment(0, 0, 0, 0)
+        #valign2.add(main_screen_text_vbox)
         
         vbox3 = gtk.VBox(False, 0)
 
@@ -195,15 +196,15 @@ class PyApp(gtk.Window):
         halign3.add(hbox_main_buttons)
         
         
-        vbox2.pack_start(halign_main_clock, False,False,10)
-        vbox2.pack_start(halign_date, False, False, 0)
-        vbox2.pack_start(halign_main_alarm,False,False,10)
+        main_screen_text_vbox.pack_start(halign_main_clock, False,False,10)
+        main_screen_text_vbox.pack_start(halign_date, False, False, 0)
+        main_screen_text_vbox.pack_start(halign_main_alarm,False,False,10)
         vbox3.pack_end(halign3, False, False, 0)
         
-        vbox.pack_start(vbox2)
-        vbox.pack_start(vbox3)
+        main_screen_vbox.pack_start(main_screen_text_vbox)
+        main_screen_vbox.pack_start(vbox3)
         
-        self.main_screen_vbox = vbox
+        self.main_screen_vbox = main_screen_vbox
         
     def clear_screen(self,widget=None):
         for child in self.get_children():
