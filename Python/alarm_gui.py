@@ -10,6 +10,7 @@
 
 
 import gtk
+import gobject
 import time
 import pango
 from time import sleep
@@ -22,7 +23,7 @@ import sys
 class PyApp(gtk.Window):
     def __init__(self):
         a = gtk.timeout_add(200, self.update_clock)
-        gtk.source_remove(a)
+        gobject.source_remove(a)
         self.clock_color = '"purple"'
         self.text_color = "'purple'"
         self.output = ""
