@@ -237,16 +237,16 @@ class PyApp(gtk.Window):
         self.btn_toggle_alarm.child.set_use_markup(True)
         return True
     
-    def plug_on(self,widget):
+    def plug_on(self, widget=None):
         subprocess.Popen("/usr/local/bin/plug_on.sh")
     
-    def plug_off(self,widget):
+    def plug_off(self, widget=None):
         subprocess.Popen("/usr/local/bin/plug_off.sh")
     
-    def toggle_alarm(self,widget):
+    def toggle_alarm(self, widget=None):
         alarm_time.toggle_alarm()
     
-    def on_clicked(self,widget):
+    def on_clicked(self, widget=None):
         if self.shown:
              self.remove(self.vbox)
              self.add(self.fix2)
@@ -257,19 +257,19 @@ class PyApp(gtk.Window):
             self.show_all()
         self.shown = not(self.shown)
     
-    def set_alarm_screen(self,widget):
+    def set_alarm_screen(self,widget=None):
         self.clear_screen()
         self.add(self.vbox_set_alarm_window)
         self.show_all()
     
-    def cancel_set_alarm(self, widget):
+    def cancel_set_alarm(self, widget=None):
         self.clear_screen()
         self.show_main_screen()
         self.alarm_hour_setting = 7
         self.alarm_minute_setting = 0
         self.update_alarm_set_screen()
     
-    def change_alarm_screen(self,widget):
+    def change_alarm_screen(self, widget=None):
         if widget == self.add_hour_btn:
             self.alarm_hour_setting += 1
         elif widget == self.subtract_hour_btn:
@@ -286,9 +286,9 @@ class PyApp(gtk.Window):
         self.alarm_minute.set_markup('<span color="purple">'+ alarm_time.add_zero(self.alarm_minute_setting) + '</span>')
         self.alarm_hour.set_markup('<span color="purple">'+ alarm_time.add_zero(self.alarm_hour_setting) + '</span>')
     
-    def set_alarm(self,widget):
+    def set_alarm(self,widget=None):
         alarm_time.set_alarm(int(self.alarm_hour_setting), int(self.alarm_minute_setting), True)
-        self.cancel_set_alarm(None)
+        self.cancel_set_alarm()
 
 clock = PyApp()
 gtk.timeout_add(200, clock.update_clock)
