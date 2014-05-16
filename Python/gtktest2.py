@@ -263,9 +263,8 @@ class PyApp(gtk.Window):
         self.show_all()
     
     def cancel_set_alarm(self, widget):
-        self.remove(self.vbox_set_alarm_window)
-        self.add(self.vbox)
-        self.show_all()
+        self.clear_screen()
+        self.show_main_screen()
         self.alarm_hour_setting = 7
         self.alarm_minute_setting = 0
         self.update_alarm_set_screen()
