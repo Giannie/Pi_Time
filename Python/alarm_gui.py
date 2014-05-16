@@ -21,7 +21,7 @@ import sys
 
 class PyApp(gtk.Window):
     def __init__(self):
-        self.clock_color = '"dark blue"'
+        self.clock_color = '"purple"'
         self.text_color = "'purple'"
         self.output = ""
         self.line2 = ""
