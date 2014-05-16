@@ -153,6 +153,7 @@ class PyApp(gtk.Window):
         self.update_alarm()
         btn_menu = gtk.Button('<span color="purple" font="14">Menu</span>')
         btn_menu.child.set_use_markup(True)
+        btn_menu.connect("clicked", self.clear_screen)
         btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
         btn_toggle_alarm.child.set_use_markup(True)
         btn_toggle_alarm.connect("clicked", self.toggle_alarm)
@@ -207,6 +208,9 @@ class PyApp(gtk.Window):
         
         self.vbox = vbox
         
+    def clear_screen(self,widget):
+        for child in self.get_children():
+            self.remove(child)
     
     def update_clock(self):
         self.clock_label.set_markup('<span color="purple">' + time.strftime('%H:%M:%S') + '</span>')
