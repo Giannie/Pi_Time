@@ -35,6 +35,7 @@ class PyApp(gtk.Window):
         
         self.create_main_screen()
         self.create_set_alarm_screen()
+        self.create_menu_screen()
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
         btn_on.child.set_use_markup(True)
