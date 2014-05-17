@@ -23,7 +23,7 @@ import sys
 class PyApp(gtk.Window):
     def __init__(self):
         self.clock_color = '"#EAE6EF"'
-        self.text_color = "'purple'"
+        self.text_color = "'#EAE6EF'"
         self.output = ""
         self.line2 = ""
         super(PyApp, self).__init__()
@@ -41,6 +41,11 @@ class PyApp(gtk.Window):
         self.create_menu_screen()
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
+        map = btn_on.get_colormap()
+        color = map.alloc_color("EAE6EF")
+        style = btn.get_style().copy()
+        style.fg[gtk.STATE_NORMAL] = color
+        
         btn_on.child.set_use_markup(True)
         btn_on.connect("clicked", self.plug_on)
         btn_off = gtk.Button('<span color="purple" font="15">Plug Off</span>')
@@ -234,7 +239,10 @@ class PyApp(gtk.Window):
         menu_vbox.pack_start(cancel_button)
 
         self.menu_vbox = menu_vbox
-
+    
+    self.markup_text_color(text, color=self.text_color):
+        return '<span color=' + color + '>' + text + '</span>'
+    
     def show_menu_screen(self, widget=None):
         self.clear_screen()
         self.add(self.menu_vbox)
