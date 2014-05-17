@@ -281,9 +281,9 @@ class PyApp(gtk.Window):
         
     def update_alarm_button(self):
         if self.alarm_bool:
-            self.btn_toggle_alarm.set_label('<span color=' + self.clock_color + '>' + 'Alarm Off</span>')
+            self.btn_toggle_alarm.set_label('<span color=' + self.clock_color + ' font="15">' + 'Alarm Off</span>')
         else:
-            self.btn_toggle_alarm.set_label('<span color=' + self.clock_color + '>' + 'Alarm On</span>')
+            self.btn_toggle_alarm.set_label('<span color=' + self.clock_color + ' font="15">' + 'Alarm On</span>')
         self.btn_toggle_alarm.child.set_use_markup(True)
         return True
     
