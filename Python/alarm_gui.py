@@ -42,7 +42,7 @@ class PyApp(gtk.Window):
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
         map = btn_on.get_colormap()
-        color = map.alloc_color("EAE6EF")
+        color = map.alloc_color("#EAE6EF")
         style = btn.get_style().copy()
         style.fg[gtk.STATE_NORMAL] = color
 
