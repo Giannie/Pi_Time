@@ -45,7 +45,7 @@ class PyApp(gtk.Window):
         color = map.alloc_color("EAE6EF")
         style = btn.get_style().copy()
         style.fg[gtk.STATE_NORMAL] = color
-        
+
         btn_on.child.set_use_markup(True)
         btn_on.connect("clicked", self.plug_on)
         btn_off = gtk.Button('<span color="purple" font="15">Plug Off</span>')
@@ -240,7 +240,7 @@ class PyApp(gtk.Window):
 
         self.menu_vbox = menu_vbox
     
-    self.markup_text_color(text, color=self.text_color):
+    def markup_text_color(text, color=self.text_color):
         return '<span color=' + color + '>' + text + '</span>'
     
     def show_menu_screen(self, widget=None):
