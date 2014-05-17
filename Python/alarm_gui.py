@@ -45,7 +45,7 @@ class PyApp(gtk.Window):
         color = map.alloc_color("#EAE6EF")
         style = btn_on.get_style().copy()
         style.fg[gtk.STATE_NORMAL] = color
-        self.style = style
+        self.btn_style = style
 
         btn_on.child.set_use_markup(True)
         btn_on.connect("clicked", self.plug_on)
