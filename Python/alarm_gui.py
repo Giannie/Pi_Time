@@ -265,7 +265,7 @@ class PyApp(gtk.Window):
     
     def update_clock(self):
         self.clock_label.set_markup('<span color=' + self.clock_color + '>' + time.strftime('%H:%M:%S') + '</span>')
-        self.date_label.set_markup('<span color="purple">' + time.strftime('%A %d/%m/%Y') + '</span>')
+        self.date_label.set_markup('<span color=' + self.text_color + '>' + time.strftime('%A %d/%m/%Y') + '</span>')
         return True
     
     def update_alarm(self):
