@@ -240,7 +240,11 @@ class PyApp(gtk.Window):
 
         self.menu_vbox = menu_vbox
     
-    def markup_text_color(self, text, color=self.text_color):
+    def markup_text_color(self, text, color=None):
+        if color:
+            pass
+        else:
+            color = self.text_color
         return '<span color=' + color + '>' + text + '</span>'
     
     def show_menu_screen(self, widget=None):
