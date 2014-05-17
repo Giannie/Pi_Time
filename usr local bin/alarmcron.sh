@@ -6,6 +6,7 @@ fi
 
 plug_on.sh && plug_on.sh &
 python /home/pi/Pi_Time/Python/alarm_off.py
+sudo sh -c "echo '1' > /sys/class/gpio/gpio252/value"
 mpc random on
 mpc load AlarmPlaylist.m3u
 mpc play
