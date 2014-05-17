@@ -72,15 +72,15 @@ class PyApp(gtk.Window):
 
         self.update_clock()
         self.update_alarm()
-        btn_menu = gtk.Button('<span color=' + self.text_color + 'font="14">Menu</span>')
+        btn_menu = gtk.Button('<span color=' + self.text_color + ' font="14">Menu</span>')
         btn_menu.child.set_use_markup(True)
         btn_menu.connect("clicked", self.show_menu_screen)
-        btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
+        btn_toggle_alarm = gtk.Button('<span color=' + self.text_color + ' font="14">Alarm Off</span>')
         btn_toggle_alarm.child.set_use_markup(True)
         btn_toggle_alarm.connect("clicked", self.toggle_alarm)
         self.btn_toggle_alarm = btn_toggle_alarm
         self.update_alarm_button()
-        btn_set_alarm = gtk.Button('<span color="purple" font="14">Set Alarm</span>')
+        btn_set_alarm = gtk.Button('<span color=' + self.text_color + ' font="14">Set Alarm</span>')
         btn_set_alarm.child.set_use_markup(True)
         btn_set_alarm.connect("clicked", self.set_alarm_screen)
 
@@ -113,8 +113,6 @@ class PyApp(gtk.Window):
 
         for item in hbox_main_buttons.get_children():
             item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
-            label =  item.get_children()[0]
-            label.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
 
         
         halign_main_clock = gtk.Alignment(0.5,0,0,0)
