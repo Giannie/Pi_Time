@@ -80,7 +80,7 @@ class PyApp(gtk.Window):
         btn_toggle_alarm.connect("clicked", self.toggle_alarm)
         self.btn_toggle_alarm = btn_toggle_alarm
         self.update_alarm_button()
-        btn_set_alarm = gtk.Button('<span color='+ self.clock_color + ' font="14">Set Alarm</span>')
+        btn_set_alarm = gtk.Button('<span color="purple" font="14">Set Alarm</span>')
         btn_set_alarm.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
         btn_set_alarm.child.set_use_markup(True)
         btn_set_alarm.connect("clicked", self.set_alarm_screen)
@@ -112,7 +112,9 @@ class PyApp(gtk.Window):
 
         hbox_main_buttons.set_size_request(-1,40)
 
-        print hbox_main_buttons.get_children()
+        for item in hbox_main_buttons.get_children():
+            item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
+            item.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("#EAE6EF") )
 
         
         halign_main_clock = gtk.Alignment(0.5,0,0,0)
