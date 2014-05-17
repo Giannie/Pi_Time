@@ -81,7 +81,6 @@ class PyApp(gtk.Window):
         self.btn_toggle_alarm = btn_toggle_alarm
         self.update_alarm_button()
         btn_set_alarm = gtk.Button('<span color="purple" font="14">Set Alarm</span>')
-        btn_set_alarm.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
         btn_set_alarm.child.set_use_markup(True)
         btn_set_alarm.connect("clicked", self.set_alarm_screen)
 
