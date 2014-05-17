@@ -112,8 +112,8 @@ class PyApp(gtk.Window):
         hbox_main_buttons.set_size_request(-1,40)
 
         for item in hbox_main_buttons.get_children():
-#            item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
-            item.child.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color.replace('"','')))
+            item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
+#            item.child.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color.replace('"','')))
 
         
         halign_main_clock = gtk.Alignment(0.5,0,0,0)
