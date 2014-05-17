@@ -114,7 +114,7 @@ class PyApp(gtk.Window):
         for item in hbox_main_buttons.get_children():
             item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
             label =  item.get_children()[0]
-            label.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color.replace('"','')))
+            label.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
 
         
         halign_main_clock = gtk.Alignment(0.5,0,0,0)
