@@ -66,7 +66,7 @@ class PyApp(gtk.Window):
         self.clock_label = gtk.Label()
         self.clock_label.modify_font(pango.FontDescription("helvetica 40"))
         self.date_label = gtk.Label()
-        self.date_label.modify_font(pango.FontDescription("helvetica 24"))
+        self.date_label.modify_font(pango.FontDescription("helvetica 22"))
         self.alarm_label = gtk.Label()
         self.alarm_label.modify_font(pango.FontDescription("helvetica 24"))
 
@@ -267,7 +267,7 @@ class PyApp(gtk.Window):
     
     def update_clock(self):
         self.clock_label.set_markup('<span color=' + self.clock_color + '>' + time.strftime('%H:%M:%S') + '</span>')
-        self.date_label.set_markup('<span color="purple">' + "Wednesday" + time.strftime('%d/%m/%Y') + '</span>')
+        self.date_label.set_markup('<span color="purple">' + "Wednesday " + time.strftime('%d/%m/%Y') + '</span>')
         return True
     
     def update_alarm(self):
