@@ -41,12 +41,6 @@ class PyApp(gtk.Window):
         self.create_menu_screen()
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
-        map = btn_on.get_colormap()
-        color = map.alloc_color("#EAE6EF")
-        style = btn_on.get_style().copy()
-        style.fg[gtk.STATE_NORMAL] = color
-        self.btn_style = style
-
         btn_on.child.set_use_markup(True)
         btn_on.connect("clicked", self.plug_on)
         btn_off = gtk.Button('<span color="purple" font="15">Plug Off</span>')
@@ -78,9 +72,9 @@ class PyApp(gtk.Window):
 
         self.update_clock()
         self.update_alarm()
-        btn_menu = gtk.Button('<span font="14">Menu</span>')
+        btn_menu = gtk.Button('<span color=' + self.text_color + 'font="14">Menu</span>')
         btn_menu.child.set_use_markup(True)
-        btn_menu.set_style(self.style)
+        btn_menu.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.text_color))
         btn_menu.connect("clicked", self.show_menu_screen)
         btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
         btn_toggle_alarm.child.set_use_markup(True)
