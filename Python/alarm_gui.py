@@ -23,7 +23,7 @@ import sys
 class PyApp(gtk.Window):
     def __init__(self):
         self.clock_color = '"#EAE6EF"'
-        self.text_color = "'#EAE6EF'"
+        self.text_color = "'purple'"
         self.output = ""
         self.line2 = ""
         super(PyApp, self).__init__()
@@ -74,7 +74,6 @@ class PyApp(gtk.Window):
         self.update_alarm()
         btn_menu = gtk.Button('<span color=' + self.text_color + 'font="14">Menu</span>')
         btn_menu.child.set_use_markup(True)
-        btn_menu.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#EAE6EF"))
         btn_menu.connect("clicked", self.show_menu_screen)
         btn_toggle_alarm = gtk.Button('<span color="purple" font="14">Alarm Off</span>')
         btn_toggle_alarm.child.set_use_markup(True)
