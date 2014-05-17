@@ -114,7 +114,7 @@ class PyApp(gtk.Window):
 
         for item in hbox_main_buttons.get_children():
             item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
-            item.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("#EAE6EF") )
+            item.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("#EAE6EF"))
 
         
         halign_main_clock = gtk.Alignment(0.5,0,0,0)
@@ -145,7 +145,7 @@ class PyApp(gtk.Window):
 
         btn_set_alarm_screen = gtk.Button()
         btn_set_alarm_screen.set_label('<span color="purple" font="15">Set Alarm</span>')
-        btn_set_alarm_screen.connect("clicked",self.set_alarm)
+        btn_set_alarm_screen.connect("clicked", self.set_alarm)
         btn_set_alarm_screen.child.set_use_markup(True)
 
 
@@ -267,7 +267,7 @@ class PyApp(gtk.Window):
     
     def update_clock(self):
         self.clock_label.set_markup('<span color=' + self.clock_color + '>' + time.strftime('%H:%M:%S') + '</span>')
-        self.date_label.set_markup('<span color="purple">' + "Wednesday " + time.strftime('%d/%m/%Y') + '</span>')
+        self.date_label.set_markup('<span color="purple">' + time.strftime('%A %d/%m/%Y') + '</span>')
         return True
     
     def update_alarm(self):
