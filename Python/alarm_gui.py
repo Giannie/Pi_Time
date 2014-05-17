@@ -272,7 +272,7 @@ class PyApp(gtk.Window):
         a_time = alarm_time.alarm_time(self.output,self.line2)
         self.output = a_time[0]
         self.line2 = a_time[1]
-        self.alarm_label.set_markup('<span color="purple">' + self.line2 +'</span>')
+        self.alarm_label.set_markup('<span color=' + self.text_color + '>' + self.line2 +'</span>')
         if self.line2.split(' ')[1] == 'off':
             self.alarm_bool = False
         else:
@@ -281,9 +281,9 @@ class PyApp(gtk.Window):
         
     def update_alarm_button(self):
         if self.alarm_bool:
-            self.btn_toggle_alarm.set_label('<span color="purple" font="14">Alarm Off</span>')
+            self.btn_toggle_alarm.set_label('<span color=' + self.clock_color + '>' + 'Alarm Off</span>')
         else:
-            self.btn_toggle_alarm.set_label('<span color="purple" font="14">Alarm On</span>')
+            self.btn_toggle_alarm.set_label('<span color=' + self.clock_color + '>' + 'Alarm On</span>')
         self.btn_toggle_alarm.child.set_use_markup(True)
         return True
     
