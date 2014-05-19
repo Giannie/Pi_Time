@@ -17,8 +17,9 @@ while True:
         if data == "on" or data == "off":
             print "trying"
             p1 = subprocess.Popen(["pgrep", "-fl", "plug_"], stdout=subprocess.PIPE)
-            print p1.stdout.read()
-            if not(p1.stdout.read()):
+            out = p1.stdout.read()
+            print out
+            if not out:
                 print "now trying"
                 subprocess.Popen("/usr/local/bin/plug_" + data + ".sh", shell=True)
         
