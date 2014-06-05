@@ -117,7 +117,7 @@ class PyApp(gtk.Window):
             item.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse("#3A1465"))
             item.modify_bg(gtk.STATE_SELECTED, gtk.gdk.color_parse("#3A1465"))
 
-        
+
         halign_main_clock = gtk.Alignment(0.5,0,0,0)
         halign_main_clock.add(hbox_main_clock)
         

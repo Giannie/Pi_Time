@@ -4,7 +4,8 @@ if [ -z "$(echo $PATH | grep /usr/local/bin)" ]; then
     PATH=/usr/local/bin:$PATH
 fi
 
-plug_on.sh && plug_on.sh &
+python /home/pi/Pi_Time/Python/send_command.py on
+#plug_on.sh && plug_on.sh &
 python /home/pi/Pi_Time/Python/alarm_off.py
 sudo sh -c "echo '1' > /sys/class/gpio/gpio252/value"
 mpc random on
@@ -60,4 +61,5 @@ mpc random off
 mpc stop
 mpc clear
 mpc volume 90
-plug_off.sh && plug_off.sh &
+#plug_off.sh && plug_off.sh &
+python /home/pi/Pi_Time/Python/send_command.py off

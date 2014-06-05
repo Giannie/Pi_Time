@@ -6,12 +6,18 @@ import datetime
 import subprocess
 from crontab import CronTab
 from time import sleep
+import sys
 try:
     import BBC_playlist
     import pywapi
     import texttospeech
 except:
     pass
+
+if sys.platform == 'darwin':
+    user = 'Giancarlo'
+else:
+    user = 'pi'
 
 wait_time = 1
 select = 1
@@ -58,7 +64,7 @@ def message_return(lcd, message_string):
 
 
 def get_time():
-    cron = CronTab('pi')
+    cron = CronTab(user)
     job = cron.find_comment('Alarm').next()
     alarm_hour = int(str(job.hour))
     alarm_min = int(str(job.minute))
@@ -92,18 +98,18 @@ def cur_time():
 
 
 def update_crontab():
-    proc = subprocess.Popen(['crontab', '-lu', 'pi'], stdout=subprocess.PIPE)
+    proc = subprocess.Popen(['crontab', '-lu', user], stdout=subprocess.PIPE)
     output = proc.stdout.read()
     return output
 
 
 def alarm_time(crontab, line2):
-    proc = subprocess.Popen(['crontab', '-lu', 'pi'], stdout=subprocess.PIPE)
+    proc = subprocess.Popen(['crontab', '-lu', user], stdout=subprocess.PIPE)
     output = proc.stdout.read()
     if output == crontab:
         return [output, line2]
     else:
-        cron = CronTab('pi')
+        cron = CronTab(user)
         job = cron.find_comment('Alarm').next()
 
         alarm_hour = add_zero(str(job.hour))
@@ -123,7 +129,7 @@ def alarm_time(crontab, line2):
 
 
 def set_alarm(hour, minute, on):
-    cron = CronTab('pi')
+    cron = CronTab(user)
     job = cron.find_comment('Alarm').next()
 
     job.clear()
@@ -138,7 +144,7 @@ def set_alarm(hour, minute, on):
 
 
 def toggle_alarm():
-    cron = CronTab('pi')
+    cron = CronTab(user)
     job = cron.find_comment('Alarm').next()
     
     if job.is_enabled():
