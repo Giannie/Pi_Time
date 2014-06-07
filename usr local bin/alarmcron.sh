@@ -15,6 +15,7 @@ mpc pause
 sleep 5
 mpc volume 82
 mpc play
+mpc volume 80
 sleep 15
 mpc volume 82
 sleep 15

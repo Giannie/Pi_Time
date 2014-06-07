@@ -9,3 +9,15 @@ DISPLAY=:0.0 python /home/pi/screen_control.py &
 
 In /etc/lightdm/lightdm.conf replace xserver-command line with:
 xserver-command=X -s 0 dpms -nocursor
+
+sudo apt-get install xserver-xorg-video-fbdev
+
+in /usr/share/X11/xorg.conf.d/99-fbdev.conf
+
+Section "Device" 
+  Identifier "myfb"
+  Driver "fbdev"
+  Option "fbdev" "/dev/fb1"
+EndSection
+
+python-gtk2
