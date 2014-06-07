@@ -4,7 +4,7 @@ import socket
 import sys
 
 arg = sys.argv
-host = '192.168.0.19'
+host = '192.168.1.153'
 port = 8000
 
 if len(arg) >= 1 and (arg[1] == 'on' or arg[1] == 'off'):

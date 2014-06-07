@@ -8,6 +8,6 @@ if len(sys.argv) < 2 or sys.argv[1] not in ['on','off']:
 message = sys.argv[1]
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('192.168.0.19', 8000))
+s.connect(('192.168.1.153', 8000))
 s.sendall(message)
 s.close()
