@@ -763,13 +763,13 @@ def ip_menu(lcd):
         sleep(0.1)
 
 
-def get_ip_address(interface):
+def get_ip_address(interface=None, inter=None):
     if interface == "ethernet":
         inter = "eth0"
     elif interface == "wifi":
         inter = "wlan0"
-    else:
-        print "Interface must be wifi or ethernet"
+    elif interface is not None:
+        print "Interface must be wifi or ethernet or not set"
         return False
     p1 = subprocess.Popen(["ifconfig", inter], stdout=subprocess.PIPE)
     p2 = subprocess.Popen(["grep", "inet"], stdin=p1.stdout, stdout=subprocess.PIPE)

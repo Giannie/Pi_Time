@@ -39,6 +39,7 @@ class PyApp(gtk.Window):
         self.create_main_screen()
         self.create_set_alarm_screen()
         self.create_menu_screen()
+        self.create_system_screen()
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
         btn_on.child.set_use_markup(True)
@@ -251,6 +252,7 @@ class PyApp(gtk.Window):
         cancel_button.child.set_use_markup(True)
 
         cancel_button.connect("clicked", self.menu_cancel)
+        system_button.connect("clicked", self.show_system_screen)
 
         menu_vbox = gtk.VBox(True, 0)
 
@@ -262,7 +264,33 @@ class PyApp(gtk.Window):
             item.set_style(self.btn_style)
 
         self.menu_vbox = menu_vbox
-    
+
+    def create_system_screen(self):
+        self.eth_label = gtk.Label()
+        self.wifi_label = gtk.Label()
+        self.update_ip()
+        system_vbox = gtk.VBox(False, 0)
+        system_vbox.add(self.eth_label)
+        system_vbox.add(self.wifi_label)
+        btn_system_cancel = gtk.Button('<span color=' + self.text_color + ' font="15">Cancel</span>')
+        btn_system_cancel.set_style(self.btn_style)
+        btn_system_cancel.connect("clicked", self.show_main_screen)
+        btn_system_cancel.child.set_use_markup(True)
+        btn_system_cancel.set_size_request(-1,40)
+        system_vbox.add(btn_system_cancel)
+        self.system_vbox = system_vbox
+
+    def update_ip(self):
+        self.eth_ip = alarm_time.get_ip_address('ethernet')
+        self.wifi_ip = alarm_time.get_ip_address('wifi')
+        self.eth_label.set_markup('<span color=' + self.clock_color + ' font="20">Ethernet: ' + self.eth_ip + '</span>')
+        self.wifi_label.set_markup('<span color=' + self.clock_color + ' font="20">Wifi: ' + self.wifi_ip + '</span>')
+
+    def show_system_screen(self,widget=None):
+        self.clear_screen()
+        self.add(self.system_vbox)
+        self.show_all()
+
     def markup_text_color(self, text, color=None):
         if color:
             pass
@@ -372,4 +400,5 @@ clock = PyApp()
 gtk.timeout_add(200, clock.update_clock)
 gtk.timeout_add(1000, clock.update_alarm)
 gtk.timeout_add(1000, clock.update_alarm_button)
+gtk.timeout_add(1000, clock.update_ip)
 gtk.main()
