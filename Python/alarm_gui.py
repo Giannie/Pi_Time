@@ -287,6 +287,7 @@ class PyApp(gtk.Window):
         self.wifi_ip = alarm_time.get_ip_address('wifi')
         self.eth_label.set_markup('<span color=' + self.clock_color + ' font="20">Ethernet: ' + self.eth_ip + '</span>')
         self.wifi_label.set_markup('<span color=' + self.clock_color + ' font="20">Wifi: ' + self.wifi_ip + '</span>')
+        return True
 
     def show_system_screen(self,widget=None):
         self.clear_screen()
@@ -307,7 +308,6 @@ class PyApp(gtk.Window):
 
     def menu_cancel(self, widget=None):
         self.show_main_screen()
-
 
     def clear_screen(self,widget=None):
         for child in self.get_children():
