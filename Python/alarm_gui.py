@@ -268,6 +268,8 @@ class PyApp(gtk.Window):
     def create_system_screen(self):
         self.eth_label = gtk.Label()
         self.wifi_label = gtk.Label()
+        self.eth_label.modify_font(pango.FontDescription("helvetica 20"))
+        self.wifi_label.modify_font(pango.FontDescription("helvetica 20"))
         self.update_ip()
         system_vbox = gtk.VBox(False, 0)
         system_vbox.add(self.eth_label)
