@@ -111,12 +111,22 @@ class PyApp(gtk.Window):
 
         hbox_main_buttons.set_size_request(-1,40)
 
-        for item in hbox_main_buttons.get_children():
-            item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
-            item.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse("#3A1465"))
-            item.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse("#3A1465"))
-            item.modify_bg(gtk.STATE_SELECTED, gtk.gdk.color_parse("#3A1465"))
+        # for item in hbox_main_buttons.get_children():
+        #     item.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#3A1465"))
+        #     item.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse("#3A1465"))
+        #     item.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse("#3A1465"))
+        #     item.modify_bg(gtk.STATE_SELECTED, gtk.gdk.color_parse("#3A1465"))
 
+        btn_style = btn_menu.get_style().copy()
+        btn_style.bg[gtk.STATE_NORMAL] = gtk.gdk.color_parse("#3A1465")
+        btn_style.bg[gtk.STATE_ACTIVE] = gtk.gdk.color_parse("#3A1465")
+        btn_style.bg[gtk.STATE_PRELIGHT] = gtk.gdk.color_parse("#3A1465")
+        btn_style.bg[gtk.STATE_SELECTED] = gtk.gdk.color_parse("#3A1465")
+
+        self.btn_style = btn_style
+
+        for item in hbox_main_buttons.get_children():
+            item.set_style(self.btn_style)
 
         halign_main_clock = gtk.Alignment(0.5,0,0,0)
         halign_main_clock.add(hbox_main_clock)
@@ -140,15 +150,14 @@ class PyApp(gtk.Window):
 
     def create_set_alarm_screen(self):
         btn_set_alarm_cancel = gtk.Button()
-        btn_set_alarm_cancel.set_label('<span color="purple" font="15">Cancel</span>')
+        btn_set_alarm_cancel.set_label('<span color=' + self.text_color + ' font="14">Cancel</span>')
         btn_set_alarm_cancel.connect("clicked",self.cancel_set_alarm)
         btn_set_alarm_cancel.child.set_use_markup(True)
 
         btn_set_alarm_screen = gtk.Button()
-        btn_set_alarm_screen.set_label('<span color="purple" font="15">Set Alarm</span>')
+        btn_set_alarm_screen.set_label('<span color=' + self.text_color + ' font="14">Set Alarm</span>')
         btn_set_alarm_screen.connect("clicked", self.set_alarm)
         btn_set_alarm_screen.child.set_use_markup(True)
-
 
 
         self.vbox_set_alarm = gtk.VBox(False, 0)
@@ -187,15 +196,21 @@ class PyApp(gtk.Window):
         self.valign_set_alarm = gtk.Alignment(0.5,0.5,0,0)
         self.valign_set_alarm.add(self.vbox_set_alarm)
 
-        self.vbox_set_alarm_window = gtk.VBox(False,0)
+        self.vbox_set_alarm_window = gtk.VBox(False, 0)
         self.vbox_set_alarm_window.pack_start(self.valign_set_alarm)
 #        vbox_set_alarm_buttons = gtk.VBox(False,0)
-        valign_set_alarm_buttons = gtk.Alignment(0.5,1,0,0)
-        hbox_set_alarm_buttons = gtk.HBox(True,5)
+        valign_set_alarm_buttons = gtk.Alignment(0.5, 1, 0, 0)
+        hbox_set_alarm_buttons = gtk.HBox(True, 1)
+        hbox_set_alarm_buttons.set_size_request(-1,40)
         halign_set_alarm_buttons = gtk.Alignment(0,0,0,0)
         halign_set_alarm_buttons.add(hbox_set_alarm_buttons)
         hbox_set_alarm_buttons.add(btn_set_alarm_screen)
         hbox_set_alarm_buttons.add(btn_set_alarm_cancel)
+
+        for item in hbox_set_alarm_buttons.get_children():
+            item.set_style(self.btn_style)
+
+
         valign_set_alarm_buttons.add(halign_set_alarm_buttons)
         self.vbox_set_alarm_window.pack_end(valign_set_alarm_buttons)
 
@@ -221,11 +236,15 @@ class PyApp(gtk.Window):
         self.subtract_hour_btn.connect("clicked", self.change_alarm_screen)
         self.add_minute_btn.connect("clicked", self.change_alarm_screen)
         self.subtract_minute_btn.connect("clicked", self.change_alarm_screen)
+        
+        for item in self.set_alarm_table.get_children():
+            if type(item) == type(self.add_hour_btn):
+                item.set_style(self.btn_style)
 
     def create_menu_screen(self):
-        system_button = gtk.Button('<span color="purple" font="15">System</span>')
-        music_button = gtk.Button('<span color="purple" font="15">Music</span>')
-        cancel_button = gtk.Button('<span color="purple" font="15">Cancel</span>')
+        system_button = gtk.Button('<span color=' + self.text_color + ' font="15">System</span>')
+        music_button = gtk.Button('<span color=' + self.text_color + ' font="15">Music</span>')
+        cancel_button = gtk.Button('<span color=' + self.text_color + ' font="15">Cancel</span>')
 
         system_button.child.set_use_markup(True)
         music_button.child.set_use_markup(True)
@@ -238,6 +257,9 @@ class PyApp(gtk.Window):
         menu_vbox.pack_start(system_button)
         menu_vbox.pack_start(music_button)
         menu_vbox.pack_start(cancel_button)
+
+        for item in menu_vbox:
+            item.set_style(self.btn_style)
 
         self.menu_vbox = menu_vbox
     
@@ -337,8 +359,8 @@ class PyApp(gtk.Window):
         self.update_alarm_set_screen()
     
     def update_alarm_set_screen(self):
-        self.alarm_minute.set_markup('<span color="purple">'+ alarm_time.add_zero(self.alarm_minute_setting) + '</span>')
-        self.alarm_hour.set_markup('<span color="purple">'+ alarm_time.add_zero(self.alarm_hour_setting) + '</span>')
+        self.alarm_minute.set_markup('<span color=' + self.text_color + '>' + alarm_time.add_zero(self.alarm_minute_setting) + '</span>')
+        self.alarm_hour.set_markup('<span color=' + self.text_color + '>' + alarm_time.add_zero(self.alarm_hour_setting) + '</span>')
     
     def set_alarm(self,widget=None):
         alarm_time.set_alarm(int(self.alarm_hour_setting), int(self.alarm_minute_setting), True)
