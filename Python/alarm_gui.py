@@ -40,6 +40,7 @@ class PyApp(gtk.Window):
         self.create_set_alarm_screen()
         self.create_menu_screen()
         self.create_system_screen()
+        self.create_analog_clock_screen()
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
         btn_on.child.set_use_markup(True)
@@ -295,6 +296,7 @@ class PyApp(gtk.Window):
             self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file(time))
             self.clock_button.add(self.clock_image)
             self.old_clock_file = self.clock_file()
+        return True
 
     def clock_file(self):
         return str(datetime.datetime.now().hour % 12) + '-' + str(datetime.datetime.now().minute % 60) + '.png'
