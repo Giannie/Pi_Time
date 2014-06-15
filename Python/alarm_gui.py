@@ -312,6 +312,7 @@ class PyApp(gtk.Window):
     def screensaver(self):
         if time.time() - self.press_before > 300:
             self.show_analog_clock()
+        return True
 
     def clock_file(self):
         return str(datetime.datetime.now().hour % 12) + '-' + str(datetime.datetime.now().minute % 60) + '.png'
