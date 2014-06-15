@@ -288,6 +288,12 @@ class PyApp(gtk.Window):
     def create_analog_clock_screen(self):
         self.clock_button = gtk.Button()
         self.clock_button.connect("clicked", self.show_main_screen)
+        black = gtk.gdk.Color(6400, 6400, 6440)
+        self.clock_button.modify_bg(gtk.STATE_NORMAL, black)
+        self.clock_button.modify_bg(gtk.STATE_ACTIVE, black)
+        self.clock_button.modify_bg(gtk.STATE_PRELIGHT, black)
+        self.clock_button.modify_bg(gtk.STATE_SELECTED, black)
+
 
     def update_analog_clock(self):
         if self.old_clock_file != self.clock_file():
