@@ -63,7 +63,8 @@ class PyApp(gtk.Window):
 #        fix2.put(btn2,20,130)
 #        self.fix2 = fix2
 #        self.add(fix)
-        self.show_main_screen()
+        #self.show_main_screen()
+        self.show_analog_clock()
         self.shown = True
 
     def create_main_screen(self):
