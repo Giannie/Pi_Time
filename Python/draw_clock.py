@@ -4,8 +4,8 @@ from PIL import Image, ImageDraw
 import math
 import datetime
 
-height = 240
-width = 320
+height = 236
+width = 316
 size = (width, height)
 
 def minute_angle(minute):
@@ -72,7 +72,7 @@ def draw_clock_button(location, time, counter):
 
 def bounding_box(second):
     top = minute_end(second)
-    if top[1] < 120:
+    if top[1] < height/2:
         return (top[0] - 3, top[1], top[0] + 3, top[1] + 6)
     else:
         return (top[0] - 3, top[1] - 6, top[0] + 3, top[1])
