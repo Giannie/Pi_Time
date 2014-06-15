@@ -16,10 +16,12 @@ import pango
 import alarm_time
 import subprocess
 import sys
+import datetime
 
 
 class PyApp(gtk.Window):
     def __init__(self):
+        self.old_clock_file = None
         self.clock_color = '"#EAE6EF"'
         self.text_color = '"#EAE6EF"'
         self.output = ""
@@ -289,9 +291,12 @@ class PyApp(gtk.Window):
     def update_analog_clock(self):
         if self.old_clock_file != self.clock_file(time):
             for child in self.clock_button.get_children():
-                self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file(time))
                 self.clock_button.remove(child)
-                self.clock_button.add(self.clock_image)
+            self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file(time))
+            self.clock_button.add(self.clock_image)
+
+    def clock_file(self):
+        return str(datetime.datetime.now().hour % 12) + '-' + str(datetime.datetime.now().minute % 60) + '.png'
 
     def show_analog_clock(self,widget=None):
         self.clear_screen()
