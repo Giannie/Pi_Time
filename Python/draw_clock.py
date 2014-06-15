@@ -4,8 +4,8 @@ from PIL import Image, ImageDraw
 import math
 import datetime
 
-height = 236
-width = 316
+height = 232
+width = 312
 size = (width, height)
 
 def minute_angle(minute):
