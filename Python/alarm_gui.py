@@ -18,13 +18,14 @@ import subprocess
 import sys
 import datetime
 import time
-import draw_clock
+#import draw_clock
 
 
 class PyApp(gtk.Window):
     def __init__(self):
         self.press_before = 0
         self.old_second = None
+        self.clock_counter = 0
         self.clock_color = '"#EAE6EF"'
         self.text_color = '"#EAE6EF"'
         self.output = ""
@@ -292,8 +293,7 @@ class PyApp(gtk.Window):
     def create_analog_clock_screen(self):
         self.clock_button = gtk.Button()
         self.clock_button.connect("clicked", self.show_main_screen)
-        draw_clock.draw_now('/home/pi/Pi_Time/Python/clock/')
-        self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/clock.png')
+        self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/' + time.strftime('%I-%M-%S').lstrip('0').replace('-0','-') + '.png')
         self.clock_button.add(self.clock_image)
         black = gtk.gdk.Color(6400, 6400, 6440)
         self.clock_button.modify_bg(gtk.STATE_NORMAL, black)
@@ -305,9 +305,8 @@ class PyApp(gtk.Window):
         if self.old_second != datetime.datetime.now().second:
             for child in self.clock_button.get_children():
                 self.clock_button.remove(child)
-            draw_clock.draw_now('/home/pi/Pi_Time/Python/clock/')
             self.clock_image.clear()
-            self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/clock.png')
+            self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/' + time.strftime('%I-%M-%S').lstrip('0').replace('-0','-') + '.png')
             self.clock_button.add(self.clock_image)
             self.old_clock_file = self.clock_file()
             self.show_all()
