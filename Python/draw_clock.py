@@ -48,7 +48,7 @@ def draw_now(location):
 
     draw.line([minute_start(minute), minute_end(minute)], fill="#3A1465", width=3)
     draw.line([hour_start(hour, minute), hour_end(hour, minute)], fill="#3A1465", width=3)
-    draw.line([second_start(second),minute_end(second)], fill="red")
+    draw.line([second_start(second),minute_end(second)], fill="grey")
 
     del draw
     im.save(location + '/clock.png','PNG')
