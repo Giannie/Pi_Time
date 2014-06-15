@@ -17,10 +17,12 @@ import alarm_time
 import subprocess
 import sys
 import datetime
+import time
 
 
 class PyApp(gtk.Window):
     def __init__(self):
+        self.press_before = 0
         self.old_clock_file = None
         self.clock_color = '"#EAE6EF"'
         self.text_color = '"#EAE6EF"'
@@ -307,10 +309,15 @@ class PyApp(gtk.Window):
             self.show_all()
         return True
 
+    def screensaver(self):
+        if time.time() - self.press_before > 300:
+            self.show_analog_clock()
+
     def clock_file(self):
         return str(datetime.datetime.now().hour % 12) + '-' + str(datetime.datetime.now().minute % 60) + '.png'
 
-    def show_analog_clock(self,widget=None):
+    def show_analog_clock(self, widget=None):
+        self.press_before = time.time()
         self.clear_screen()
         self.add(self.clock_button)
         self.show_all()
@@ -322,7 +329,8 @@ class PyApp(gtk.Window):
         self.wifi_label.set_markup('<span color=' + self.clock_color + ' font="20">Wifi: ' + self.wifi_ip + '</span>')
         return True
 
-    def show_system_screen(self,widget=None):
+    def show_system_screen(self, widget=None):
+        self.press_before = time.time()
         self.clear_screen()
         self.add(self.system_vbox)
         self.show_all()
@@ -335,18 +343,22 @@ class PyApp(gtk.Window):
         return '<span color=' + color + '>' + text + '</span>'
     
     def show_menu_screen(self, widget=None):
+        self.press_before = time.time()
         self.clear_screen()
         self.add(self.menu_vbox)
         self.show_all()
 
     def menu_cancel(self, widget=None):
+        self.press_before = time.time()
         self.show_main_screen()
 
     def clear_screen(self,widget=None):
+        self.press_before = time.time()
         for child in self.get_children():
             self.remove(child)
     
     def show_main_screen(self,widget=None):
+        self.press_before = time.time()
         self.clear_screen()
         self.add(self.main_screen_vbox)
         self.show_all()
@@ -376,16 +388,20 @@ class PyApp(gtk.Window):
         return True
     
     def plug_on(self, widget=None):
+        self.press_before = time.time()
         subprocess.Popen("/usr/local/bin/plug_on.sh")
     
     def plug_off(self, widget=None):
+        self.press_before = time.time()
         subprocess.Popen("/usr/local/bin/plug_off.sh")
     
     def toggle_alarm(self, widget=None):
+        self.press_before = time.time()
         alarm_time.toggle_alarm()
         self.update_alarm()
     
     def on_clicked(self, widget=None):
+        self.press_before = time.time()
         if self.shown:
              self.remove(self.vbox)
              self.add(self.fix2)
@@ -397,11 +413,13 @@ class PyApp(gtk.Window):
         self.shown = not(self.shown)
 
     def set_alarm_screen(self,widget=None):
+        self.press_before = time.time()
         self.clear_screen()
         self.add(self.vbox_set_alarm_window)
         self.show_all()
     
     def cancel_set_alarm(self, widget=None):
+        self.press_before = time.time()
         self.clear_screen()
         self.show_main_screen()
         self.alarm_hour_setting = 7
@@ -409,6 +427,7 @@ class PyApp(gtk.Window):
         self.update_alarm_set_screen()
     
     def change_alarm_screen(self, widget=None):
+        self.press_before = time.time()
         if widget == self.add_hour_btn:
             self.alarm_hour_setting += 1
         elif widget == self.subtract_hour_btn:
@@ -425,7 +444,8 @@ class PyApp(gtk.Window):
         self.alarm_minute.set_markup('<span color=' + self.text_color + '>' + alarm_time.add_zero(self.alarm_minute_setting) + '</span>')
         self.alarm_hour.set_markup('<span color=' + self.text_color + '>' + alarm_time.add_zero(self.alarm_hour_setting) + '</span>')
     
-    def set_alarm(self,widget=None):
+    def set_alarm(self, widget=None):
+        self.press_before = time.time()
         alarm_time.set_alarm(int(self.alarm_hour_setting), int(self.alarm_minute_setting), True)
         self.update_alarm()
         self.update_alarm_button()
@@ -437,4 +457,5 @@ gtk.timeout_add(1000, clock.update_alarm)
 gtk.timeout_add(1000, clock.update_alarm_button)
 gtk.timeout_add(5000, clock.update_ip)
 gtk.timeout_add(1000, clock.update_analog_clock)
+gtk.timeout_add(10000, clock.screensaver)
 gtk.main()
