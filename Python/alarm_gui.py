@@ -293,7 +293,7 @@ class PyApp(gtk.Window):
         if self.old_clock_file != self.clock_file():
             for child in self.clock_button.get_children():
                 self.clock_button.remove(child)
-            self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file(time))
+            self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file())
             self.clock_button.add(self.clock_image)
             self.old_clock_file = self.clock_file()
         return True
