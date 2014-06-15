@@ -311,6 +311,7 @@ class PyApp(gtk.Window):
             self.clock_button.add(self.clock_image)
             self.old_clock_file = self.clock_file()
             self.show_all()
+            self.old_second = datetime.datetime.now().second
         return True
 
     def screensaver(self):
@@ -461,6 +462,6 @@ gtk.timeout_add(200, clock.update_clock)
 gtk.timeout_add(1000, clock.update_alarm)
 gtk.timeout_add(1000, clock.update_alarm_button)
 gtk.timeout_add(5000, clock.update_ip)
-gtk.timeout_add(1000, clock.update_analog_clock)
+gtk.timeout_add(200, clock.update_analog_clock)
 gtk.timeout_add(10000, clock.screensaver)
 gtk.main()
