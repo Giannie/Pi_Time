@@ -304,6 +304,7 @@ class PyApp(gtk.Window):
             self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file())
             self.clock_button.add(self.clock_image)
             self.old_clock_file = self.clock_file()
+            self.show_all()
         return True
 
     def clock_file(self):
