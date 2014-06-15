@@ -24,7 +24,7 @@ import draw_clock
 class PyApp(gtk.Window):
     def __init__(self):
         self.press_before = 0
-        self.old_clock_file = None
+        self.old_second = None
         self.clock_color = '"#EAE6EF"'
         self.text_color = '"#EAE6EF"'
         self.output = ""
@@ -302,7 +302,7 @@ class PyApp(gtk.Window):
         self.clock_button.modify_bg(gtk.STATE_SELECTED, black)
 
     def update_analog_clock(self):
-        if self.old_clock_file != self.clock_file():
+        if self.old_second != datetime.datetime.now().second:
             for child in self.clock_button.get_children():
                 self.clock_button.remove(child)
             draw_clock.draw_now('/home/pi/Pi_Time/Python/clock/')
