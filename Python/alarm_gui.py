@@ -289,11 +289,12 @@ class PyApp(gtk.Window):
         self.clock_button.connect("clicked", self.show_main_screen)
 
     def update_analog_clock(self):
-        if self.old_clock_file != self.clock_file(time):
+        if self.old_clock_file != self.clock_file():
             for child in self.clock_button.get_children():
                 self.clock_button.remove(child)
             self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file(time))
             self.clock_button.add(self.clock_image)
+            self.old_clock_file = self.clock_file()
 
     def clock_file(self):
         return str(datetime.datetime.now().hour % 12) + '-' + str(datetime.datetime.now().minute % 60) + '.png'
