@@ -13,8 +13,6 @@ import gtk
 import gobject
 import time
 import pango
-from time import sleep
-from crontab import CronTab
 import alarm_time
 import subprocess
 import sys
@@ -254,6 +252,8 @@ class PyApp(gtk.Window):
         cancel_button.connect("clicked", self.menu_cancel)
         system_button.connect("clicked", self.show_system_screen)
 
+        music_button.connect("clicked", self.show_analog_clock)
+
         menu_vbox = gtk.VBox(True, 0)
 
         menu_vbox.pack_start(system_button)
@@ -281,6 +281,22 @@ class PyApp(gtk.Window):
         btn_system_cancel.set_size_request(-1,40)
         system_vbox.add(btn_system_cancel)
         self.system_vbox = system_vbox
+    
+    def create_analog_clock_screen(self):
+        self.clock_button = gtk.Button()
+        self.clock_button.connect("clicked", self.show_main_screen)
+
+    def update_analog_clock(self):
+        if self.old_clock_file != self.clock_file(time):
+            for child in self.clock_button.get_children():
+                self.clock_image = gtk.image_new_from_file('./clock/' + self.clock_file(time))
+                self.clock_button.remove(child)
+                self.clock_button.add(self.clock_image)
+
+    def show_analog_clock(self,widget=None):
+        self.clear_screen()
+        self.add(self.clock_button)
+        self.show_all()
 
     def update_ip(self):
         self.eth_ip = alarm_time.get_ip_address('ethernet')
@@ -402,5 +418,6 @@ clock = PyApp()
 gtk.timeout_add(200, clock.update_clock)
 gtk.timeout_add(1000, clock.update_alarm)
 gtk.timeout_add(1000, clock.update_alarm_button)
-gtk.timeout_add(1000, clock.update_ip)
+gtk.timeout_add(5000, clock.update_ip)
+gtk.timeout_add(1000, clock.update_analog_clock)
 gtk.main()
