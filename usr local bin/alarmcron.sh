@@ -8,7 +8,7 @@ python /home/pi/Pi_Time/Python/send_command.py on
 #plug_on.sh && plug_on.sh &
 python /home/pi/Pi_Time/Python/alarm_off.py
 sudo sh -c "echo '1' > /sys/class/gpio/gpio252/value"
-xinput set-prop 'stmpe-ts' 'Device Enabled' 1
+DISPLAY=:0.0 xinput set-prop 'stmpe-ts' 'Device Enabled' 1
 mpc random on
 mpc load AlarmPlaylist.m3u
 mpc play
