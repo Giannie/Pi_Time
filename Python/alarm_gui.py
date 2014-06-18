@@ -42,7 +42,7 @@ class PyApp(gtk.Window):
             self.fullscreen()
 
         drawing_area = gtk.DrawingArea()
-        drawing_area.set_size_request(316, 236)
+        drawing_area.set_size_request(312, 232)
         self.drawing_area = drawing_area
 
         drawing_area.connect("expose-event", self.create_analog_clock)
