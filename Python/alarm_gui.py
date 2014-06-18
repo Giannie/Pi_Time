@@ -23,6 +23,7 @@ import draw_clock
 
 class PyApp(gtk.Window):
     def __init__(self):
+        self.analog = False
         self.press_before = 0
         self.old_second = None
         self.clock_counter = 0
@@ -39,7 +40,13 @@ class PyApp(gtk.Window):
             self.set_size_request(320, 240)
         else:
             self.fullscreen()
-        
+
+        drawing_area = gtk.DrawingArea()
+        drawing_area.set_size_request(316, 236)
+        self.drawing_area = drawing_area
+
+        drawing_area.connect("expose-event", self.create_analog_clock)
+
         self.create_main_screen()
         self.create_set_alarm_screen()
         self.create_menu_screen()
@@ -292,30 +299,79 @@ class PyApp(gtk.Window):
     
     def create_analog_clock_screen(self):
         self.clock_button = gtk.Button()
-        self.clock_button.connect("clicked", self.show_main_screen)
-        draw_clock.draw_now('/home/pi/Pi_Time/Python/clock/')
-        self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/clock.png')
+        self.clock_button.connect("clicked", self.show_main_screen_analog)
+        #draw_clock.draw_now('/home/pi/Pi_Time/Python/clock/')
+        #self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/clock.png')
         #self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/' + time.strftime('%I-%M-%S').lstrip('0').replace('-0','-') + '.png')
-        self.clock_button.add(self.clock_image)
+        #self.clock_button.add(self.clock_image)
         black = gtk.gdk.Color(6400, 6400, 6440)
         self.clock_button.modify_bg(gtk.STATE_NORMAL, black)
         self.clock_button.modify_bg(gtk.STATE_ACTIVE, black)
         self.clock_button.modify_bg(gtk.STATE_PRELIGHT, black)
         self.clock_button.modify_bg(gtk.STATE_SELECTED, black)
+        self.clock_button.add(self.drawing_area)
+
+    def create_analog_clock(self, area, event):
+        drawable = self.drawing_area.window
+        self.drawable = drawable
+        self.win_style = self.drawing_area.get_style()
+        self.gc = self.win_style.fg_gc[gtk.STATE_NORMAL]
+        #self.gc.set_rgb_fg_color(gtk.gdk.color_parse('blue'))
+        #self.gc_line = self.win_style.fg_gc[gtk.STATE_NORMAL]
+        self.gc_line = self.drawable.new_gc()
+        self.gc_circle = self.drawable.new_gc()
+        #self.gc.background = gtk.gdk.color_parse('black')
+        #self.drawable.background = gtk.gdk.color_parse('black')
+        #color = self.drawing_area.get_colormap().alloc("purple")
+        #self.gc.foreground = color
+        self.gc_line.line_width = 2
+        self.gc_circle.line_width = 2
+        #print self.gc.clip_mask.width
+        #self.drawable.draw_line(self.gc, 10, 10, 20, 30)
+        #self.drawable.draw_rectangle(self.gc, True, 0, 0, 312, 232)
+        #color = self.drawing_area.get_colormap().alloc("purple")
+        #colormap = gtk.gdk.Colormap(gtk.gdk.Visual())
+        #color = colormap.alloc_color('purple', writeable=FALSE, best_match=TRUE)
+        color = gtk.gdk.color_parse('purple')
+        self.gc_line.set_rgb_fg_color(color)
+        self.gc_circle.set_rgb_fg_color(gtk.gdk.color_parse('grey'))
+        #self.gc_line.set_foreground(gtk.gdk.color_parse('black'))
+        #print self.gc_line.foreground
+        #self.gc.foreground = gtk.gdk.color('purple')
+        self.drawable.draw_rectangle(self.gc, True, 0, 0, 312, 232)
+        #self.drawable.draw_line(self.gc_line, 5 * datetime.datetime.now().second, 10, 20, 30)
+        minute_s = draw_clock.minute_start(datetime.datetime.now().minute)
+        minute_e = draw_clock.minute_end(datetime.datetime.now().minute)
+        minute = minute_s + minute_e
+        hour_s = draw_clock.hour_start(datetime.datetime.now().hour,datetime.datetime.now().minute)
+        hour_e = draw_clock.hour_end(datetime.datetime.now().hour,datetime.datetime.now().minute)
+        hour = hour_s + hour_e
+        second_center = draw_clock.second_center(datetime.datetime.now())
+        seconds = second_center + (8, 8, 0, 360*64)
+        self.drawable.draw_line(self.gc_line, *minute)
+        self.drawable.draw_line(self.gc_line, *hour)
+        self.drawable.draw_arc(self.gc_circle, True, *seconds)
 
     def update_analog_clock(self):
-        if self.old_second != datetime.datetime.now().second:
-            for child in self.clock_button.get_children():
-                self.clock_button.remove(child)
-            self.clock_image.clear()
-            draw_clock.draw_now('/home/pi/Pi_Time/Python/clock/')
-            self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/clock.png')
-            #self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/' + time.strftime('%I-%M-%S').lstrip('0').replace('-0','-') + '.png')
-            self.clock_button.add(self.clock_image)
-            self.old_clock_file = self.clock_file()
-            self.show_all()
-            self.old_second = datetime.datetime.now().second
-        return True
+        # if self.old_second != datetime.datetime.now().second:
+        #     for child in self.clock_button.get_children():
+        #         self.clock_button.remove(child)
+        #     self.clock_image.clear()
+        #     draw_clock.draw_now('/home/pi/Pi_Time/Python/clock/')
+        #     self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/clock.png')
+        #     #self.clock_image = gtk.image_new_from_file('/home/pi/Pi_Time/Python/clock/' + time.strftime('%I-%M-%S').lstrip('0').replace('-0','-') + '.png')
+        #     self.clock_button.add(self.clock_image)
+        #     self.old_clock_file = self.clock_file()
+        #     self.show_all()
+        #     self.old_second = datetime.datetime.now().second
+        # return True
+        if self.analog:
+            self.drawing_area.get_window().invalidate_rect(self.drawing_area.get_allocation(), False)
+        return self.analog
+
+    def show_main_screen_analog(self, widget=None):
+        self.analog = False
+        self.show_main_screen()
 
     def screensaver(self):
         if time.time() - self.press_before > 300:
@@ -326,6 +382,8 @@ class PyApp(gtk.Window):
         return str(datetime.datetime.now().hour % 12) + '-' + str(datetime.datetime.now().minute % 60) + '.png'
 
     def show_analog_clock(self, widget=None):
+        self.analog = True
+        gtk.timeout_add(200, self.update_analog_clock)
         self.press_before = time.time()
         self.clear_screen()
         self.add(self.clock_button)
@@ -465,6 +523,6 @@ gtk.timeout_add(200, clock.update_clock)
 gtk.timeout_add(1000, clock.update_alarm)
 gtk.timeout_add(1000, clock.update_alarm_button)
 gtk.timeout_add(5000, clock.update_ip)
-gtk.timeout_add(200, clock.update_analog_clock)
+#gtk.timeout_add(200, clock.update_analog_clock)
 gtk.timeout_add(10000, clock.screensaver)
 gtk.main()
