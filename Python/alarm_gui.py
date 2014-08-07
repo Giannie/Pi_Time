@@ -404,7 +404,9 @@ class PyApp(gtk.Window):
         
         mpc_label = gtk.Label()
         mpc_label.set_markup('<span color=' + self.clock_color + '>Not Playing</span>')
-        mpc_label.modify_font(pango.FontDescription("helvetica 18"))
+        mpc_label.modify_font(pango.FontDescription("helvetica 14"))
+        mpc_label.set_justify(gtk.JUSTIFY_CENTER)
+        mpc_label.set_size_request(320,-1)
         
         volume_label = gtk.Label()
         volume_label.set_markup('<span color=' + self.clock_color + '>N/A</span>')
@@ -448,11 +450,12 @@ class PyApp(gtk.Window):
         button_pause.connect("clicked", self.mpc_ctrl)
         button_exit.connect("clicked", self.show_main_screen)
         music_vbox.pack_start(table)
-        table.attach(mpc_label, 0, 3, 0, 1)
+        table.attach(mpc_label, 0, 3, 0, 1, yoptions=gtk.EXPAND)
         table.attach(volume_label, 1, 2, 3, 4)
         self.volume_label = volume_label
         self.music_vbox = music_vbox
         self.music_table = table
+        table.set_row_spacing(0, 5)
     
     def update_music_screen(self):
         if self.music_vbox in self.get_children():
@@ -468,7 +471,7 @@ class PyApp(gtk.Window):
                 self.music_table.attach(self.button_play, 1, 2, 1, 2)
                 self.mpc_label.set_markup('<span color=' + self.clock_color + '>Not Playing</span>')
             if self.client.client.status()['state'] in ["play", "pause"]:
-                self.mpc_label.set_markup('<span color=' + self.clock_color + '>' + self.client.client.currentsong()['title'] + ' - ' + self.client.client.currentsong()['artist'] + '</span>')
+                self.mpc_label.set_markup('<span color=' + self.clock_color + '>' + self.client.client.currentsong()['title'] + '\n' + self.client.client.currentsong()['artist'] + '</span>')
             else:
                 self.mpc_label.set_markup('<span color=' + self.clock_color + '>Not Playing</span>')
             if self.client.client.status()['volume'] != '-1':
