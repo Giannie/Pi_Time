@@ -10,7 +10,7 @@ class mpd_client():
     def connect(self):
         self.client.timeout = None
         self.client.idletimeout = None
-        self.client.connect("localhost", 6600)
+        self.client.connect("192.168.1.153", 6600)
     
     def playing(self):
         if self.client.status()["state"] == "play":
