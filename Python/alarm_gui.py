@@ -19,10 +19,12 @@ import sys
 import datetime
 import time
 import draw_clock
+from mpd_lib import mpd_client
 
 
 class PyApp(gtk.Window):
     def __init__(self):
+        self.client = mpd_client()
         self.analog = False
         self.press_before = 0
         self.old_second = None
@@ -52,6 +54,7 @@ class PyApp(gtk.Window):
         self.create_menu_screen()
         self.create_system_screen()
         self.create_analog_clock_screen()
+        self.create_music_screen()
         
         btn_on = gtk.Button('<span color="purple" font="15">Plug On</span>')
         btn_on.child.set_use_markup(True)
@@ -165,7 +168,7 @@ class PyApp(gtk.Window):
     def create_set_alarm_screen(self):
         btn_set_alarm_cancel = gtk.Button()
         btn_set_alarm_cancel.set_label('<span color=' + self.text_color + ' font="14">Cancel</span>')
-        btn_set_alarm_cancel.connect("clicked",self.cancel_set_alarm)
+        btn_set_alarm_cancel.connect("clicked", self.cancel_set_alarm)
         btn_set_alarm_cancel.child.set_use_markup(True)
 
         btn_set_alarm_screen = gtk.Button()
@@ -259,18 +262,22 @@ class PyApp(gtk.Window):
         system_button = gtk.Button('<span color=' + self.text_color + ' font="15">System</span>')
         music_button = gtk.Button('<span color=' + self.text_color + ' font="15">Music</span>')
         cancel_button = gtk.Button('<span color=' + self.text_color + ' font="15">Cancel</span>')
+        clock_button = gtk.Button('<span color=' + self.text_color + ' font="15">Clock</span>')
 
         system_button.child.set_use_markup(True)
         music_button.child.set_use_markup(True)
         cancel_button.child.set_use_markup(True)
+        clock_button.child.set_use_markup(True)
 
         cancel_button.connect("clicked", self.menu_cancel)
         system_button.connect("clicked", self.show_system_screen)
 
-        music_button.connect("clicked", self.show_analog_clock)
+        music_button.connect("clicked", self.show_music_screen)
+        clock_button.connect("clicked", self.show_analog_clock)
 
         menu_vbox = gtk.VBox(True, 0)
-
+        
+        menu_vbox.pack_start(clock_button)
         menu_vbox.pack_start(system_button)
         menu_vbox.pack_start(music_button)
         menu_vbox.pack_start(cancel_button)
@@ -315,7 +322,8 @@ class PyApp(gtk.Window):
         drawable = self.drawing_area.window
         self.drawable = drawable
         self.win_style = self.drawing_area.get_style()
-        self.gc = self.win_style.fg_gc[gtk.STATE_NORMAL]
+        #self.gc = self.win_style.fg_gc[gtk.STATE_NORMAL]
+        self.gc_back = self.drawable.new_gc()
         #self.gc.set_rgb_fg_color(gtk.gdk.color_parse('blue'))
         #self.gc_line = self.win_style.fg_gc[gtk.STATE_NORMAL]
         self.gc_line = self.drawable.new_gc()
@@ -335,22 +343,141 @@ class PyApp(gtk.Window):
         color = gtk.gdk.color_parse('purple')
         self.gc_line.set_rgb_fg_color(color)
         self.gc_circle.set_rgb_fg_color(gtk.gdk.color_parse('grey'))
+        self.gc_back.set_rgb_fg_color(gtk.gdk.color_parse('black'))
         #self.gc_line.set_foreground(gtk.gdk.color_parse('black'))
         #print self.gc_line.foreground
         #self.gc.foreground = gtk.gdk.color('purple')
-        self.drawable.draw_rectangle(self.gc, True, 0, 0, 312, 232)
+        self.drawable.draw_rectangle(self.gc_back, True, 0, 0, self.get_size()[0] - 8, self.get_size()[1] - 8)
         #self.drawable.draw_line(self.gc_line, 5 * datetime.datetime.now().second, 10, 20, 30)
-        minute_s = draw_clock.minute_start(datetime.datetime.now().minute)
-        minute_e = draw_clock.minute_end(datetime.datetime.now().minute)
+        minute_s = draw_clock.minute_start(datetime.datetime.now().minute, self.get_size())
+        minute_e = draw_clock.minute_end(datetime.datetime.now().minute, self.get_size())
         minute = minute_s + minute_e
-        hour_s = draw_clock.hour_start(datetime.datetime.now().hour,datetime.datetime.now().minute)
-        hour_e = draw_clock.hour_end(datetime.datetime.now().hour,datetime.datetime.now().minute)
+        hour_s = draw_clock.hour_start(datetime.datetime.now().hour,datetime.datetime.now().minute, self.get_size())
+        hour_e = draw_clock.hour_end(datetime.datetime.now().hour,datetime.datetime.now().minute, self.get_size())
         hour = hour_s + hour_e
-        second_center = draw_clock.second_center(datetime.datetime.now())
+        second_center = draw_clock.second_center(datetime.datetime.now(), self.get_size())
         seconds = second_center + (8, 8, 0, 360*64)
         self.drawable.draw_line(self.gc_line, *minute)
         self.drawable.draw_line(self.gc_line, *hour)
         self.drawable.draw_arc(self.gc_circle, True, *seconds)
+    
+    def create_music_screen(self):
+        music_vbox = gtk.VBox(False, 0)
+        
+        play_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        pause_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        stop_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_STOP, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        next_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_NEXT, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        prev_image = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PREVIOUS, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        add_image_vol = gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        subtract_image_vol = gtk.image_new_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        
+        self.play_image = play_image
+        self.pause_image = pause_image
+        
+        button_play = gtk.Button()
+        button_pause = gtk.Button()
+        #button_pause = gtk.Button()
+        button_stop = gtk.Button()
+        button_next = gtk.Button()
+        button_prev = gtk.Button()
+        button_exit = gtk.Button('<span color=' + self.text_color + ' font="15">Exit</span>')
+        button_add_vol = gtk.Button()
+        button_subtract_vol = gtk.Button()
+        button_instant = gtk.Button('<span color=' + self.text_color + ' font="12">Instant\n Music</span>')
+        button_choose = gtk.Button('<span color=' + self.text_color + ' font="12">Choose\n Music</span>')
+        
+        self.button_play = button_play
+        self.button_pause = button_pause
+        self.button_stop = button_stop
+        self.button_next = button_next
+        self.button_prev = button_prev
+        self.button_exit = button_exit
+        self.button_add_vol = button_add_vol
+        self.button_subtract_vol = button_subtract_vol
+        self.button_instant = button_instant
+        self.button_choose = button_choose
+        
+        self.button_exit.child.set_use_markup(True)
+        self.button_instant.child.set_use_markup(True)
+        self.button_choose.child.set_use_markup(True)
+        
+        mpc_label = gtk.Label()
+        mpc_label.set_markup('<span color=' + self.clock_color + '>Not Playing</span>')
+        mpc_label.modify_font(pango.FontDescription("helvetica 18"))
+        
+        volume_label = gtk.Label()
+        volume_label.set_markup('<span color=' + self.clock_color + '>N/A</span>')
+        volume_label.modify_font(pango.FontDescription("helvetica 18"))
+        
+        self.mpc_label = mpc_label
+        
+        #if self.client.client.status()['state'] == "play":
+        #    button_play_pause.add(pause_image)
+        #else:
+        #    button_play_pause.add(play_image)
+        button_play.add(play_image)
+        button_pause.add(pause_image)
+        button_stop.add(stop_image)
+        button_next.add(next_image)
+        button_prev.add(prev_image)
+        button_add_vol.add(add_image_vol)
+        button_subtract_vol.add(subtract_image_vol)
+        #button.child.set_use_markup(True)
+        
+        
+        #button_pause.connect("clicked", self.mpc_ctrl)
+        
+        
+        table = gtk.Table(5,3,True)
+        table.attach(button_play, 1, 2, 1, 2)
+        #table.attach(button_pause, 1, 2, 1, 2)
+        table.attach(button_stop, 1, 2, 2, 3)
+        table.attach(button_prev, 0, 1, 2, 3)
+        table.attach(button_next, 2, 3, 2, 3)
+        table.attach(button_exit, 2, 3, 4, 5)
+        table.attach(button_subtract_vol, 0, 1, 3, 4)
+        table.attach(button_add_vol, 2, 3, 3, 4)
+        table.attach(button_instant, 0, 1, 4, 5)
+        table.attach(button_choose, 1, 2, 4, 5)
+        for item in table.get_children():
+            item.set_style(self.btn_style)
+            if item not in [button_exit, button_choose]:
+                item.connect("clicked", self.mpc_ctrl)
+        button_pause.set_style(self.btn_style)
+        button_pause.connect("clicked", self.mpc_ctrl)
+        button_exit.connect("clicked", self.show_main_screen)
+        music_vbox.pack_start(table)
+        table.attach(mpc_label, 0, 3, 0, 1)
+        table.attach(volume_label, 1, 2, 3, 4)
+        self.volume_label = volume_label
+        self.music_vbox = music_vbox
+        self.music_table = table
+    
+    def update_music_screen(self):
+        if self.music_vbox in self.get_children():
+            try:
+                self.client.connect()
+            except:
+                pass
+            if self.client.client.status()['state'] == "play" and self.button_pause not in self.music_table.get_children():
+                self.music_table.remove(self.button_play)
+                self.music_table.attach(self.button_pause, 1, 2, 1, 2)
+            elif self.client.client.status()['state'] != "play" and self.button_play not in self.music_table.get_children():
+                self.music_table.remove(self.button_pause)
+                self.music_table.attach(self.button_play, 1, 2, 1, 2)
+                self.mpc_label.set_markup('<span color=' + self.clock_color + '>Not Playing</span>')
+            if self.client.client.status()['state'] in ["play", "pause"]:
+                self.mpc_label.set_markup('<span color=' + self.clock_color + '>' + self.client.client.currentsong()['title'] + ' - ' + self.client.client.currentsong()['artist'] + '</span>')
+            else:
+                self.mpc_label.set_markup('<span color=' + self.clock_color + '>Not Playing</span>')
+            if self.client.client.status()['volume'] != '-1':
+                self.volume_label.set_markup('<span color=' + self.clock_color + '>' + self.client.client.status()['volume'] + '%' + '</span>')
+            else:
+                self.volume_label.set_markup('<span color=' + self.clock_color + '>N/A</span>')
+            self.refresh_music_screen()
+        return True
+            
 
     def update_analog_clock(self):
         # if self.old_second != datetime.datetime.now().second:
@@ -372,12 +499,31 @@ class PyApp(gtk.Window):
     def show_main_screen_analog(self, widget=None):
         self.analog = False
         self.show_main_screen()
-
+    
+    def show_music_screen(self, widget=None):
+        self.press_before = time.time()
+        self.clear_screen()
+        self.add(self.music_vbox)
+        self.update_music_screen()
+        self.show_all()
+    
+    def refresh_music_screen(self, widget=None):
+        self.clear_screen()
+        self.add(self.music_vbox)
+        self.show_all()
+    
     def screensaver(self):
         if time.time() - self.press_before > 300:
             self.show_analog_clock()
         return True
-
+    
+    def mpc_ctrl(self, widget=None):
+        self.press_before = time.time()
+        dict = {self.button_play: "play", self.button_pause: "pause", self.button_stop: "stop", self.button_next: "next", self.button_prev: "previous", self.button_add_vol: "vol up", self.button_subtract_vol: "vol down", self.button_instant: "instant"}
+        self.client.mpd_command(dict[widget])
+        self.refresh_music_screen()
+        #self.show_main_screen()
+    
     def clock_file(self):
         return str(datetime.datetime.now().hour % 12) + '-' + str(datetime.datetime.now().minute % 60) + '.png'
 
@@ -420,7 +566,6 @@ class PyApp(gtk.Window):
         self.show_main_screen()
 
     def clear_screen(self,widget=None):
-        self.press_before = time.time()
         for child in self.get_children():
             self.remove(child)
     
@@ -525,4 +670,5 @@ gtk.timeout_add(1000, clock.update_alarm_button)
 gtk.timeout_add(5000, clock.update_ip)
 #gtk.timeout_add(200, clock.update_analog_clock)
 gtk.timeout_add(10000, clock.screensaver)
+gtk.timeout_add(1000, clock.update_music_screen)
 gtk.main()

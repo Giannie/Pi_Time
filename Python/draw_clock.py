@@ -4,11 +4,11 @@ from PIL import Image, ImageDraw
 import math
 import datetime
 
-height = 222
-width = 302
-area_height = 232
-area_width = 312
-size = (width, height)
+# height = 222
+# width = 302
+# area_height = 232
+# area_width = 312
+# size = (width, height)
 
 def minute_angle(minute):
     return math.pi * minute / 30.0
@@ -16,12 +16,20 @@ def minute_angle(minute):
 def hour_angle(hour,minute):
     return (hour + minute/60.0) * math.pi / 6
 
-def second_start(second):
+def second_start(second, size):
+    area_width = size[0] - 8
+    area_height = size[1] - 8
+    width = size[0] - 18
+    height = size[1] - 18
     y = area_height/2 - height/16 * math.cos(minute_angle(second))
     x = area_width/2 + height/16 * math.sin(minute_angle(second))
     return int(round(x,0)), int(round(y,0))
 
-def second_center(time):
+def second_center(time, size):
+    area_width = size[0] - 8
+    area_height = size[1] - 8
+    width = size[0] - 18
+    height = size[1] - 18
     second_now = time.second
     length = height/2 - 4
     y = area_height/2 - length * math.cos(minute_angle(second_now))
@@ -30,22 +38,38 @@ def second_center(time):
     y -= 4
     return int(round(x, 0)), int(round(y, 0))
 
-def minute_start(minute):
+def minute_start(minute, size):
+    area_width = size[0] - 8
+    area_height = size[1] - 8
+    width = size[0] - 18
+    height = size[1] -18
     y = area_height/2 - height/8 * math.cos(minute_angle(minute))
     x = area_width/2 + height/8 * math.sin(minute_angle(minute))
     return int(round(x, 0)), int(round(y, 0))
 
-def minute_end(minute):
+def minute_end(minute, size):
+    area_width = size[0] - 8
+    area_height = size[1] - 8
+    width = size[0] - 18
+    height = size[1] - 18
     y = area_height/2 - height/2 * math.cos(minute_angle(minute))
     x = area_width/2 + height/2 * math.sin(minute_angle(minute))
     return (int(round(x,0)), int(round(y,0)))
 
-def hour_start(hour, minute):
+def hour_start(hour, minute, size):
+    area_width = size[0] - 8
+    area_height = size[1] - 8
+    width = size[0] - 18
+    height = size[1] - 18
     y = area_height/2 - height/4 * math.cos(hour_angle(hour, minute))
     x = area_width/2 + height/4 * math.sin(hour_angle(hour, minute))
     return (int(round(x,0)), int(round(y,0)))
 
-def hour_end(hour, minute):
+def hour_end(hour, minute, size):
+    area_width = size[0] - 8
+    area_height = size[1] - 8
+    width = size[0] - 18
+    height = size[1] - 18
     y = area_height/2 - height/2 * math.cos(hour_angle(hour, minute))
     x = area_width/2 + height/2 * math.sin(hour_angle(hour, minute))
     return (int(round(x,0)), int(round(y,0)))
