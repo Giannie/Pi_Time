@@ -21,7 +21,7 @@ fi
 
 sudo apt-get update
 sudo apt-get install mpc python-dev python-rpi.gpio python-pip htop elinks evtest tslib libts-bin python-gtk2 xinput
-sudo pip install python-crontab requests
+sudo pip install python-crontab requests python-mpd2
 mkdir logs
 mkdir logs/cron
 
@@ -35,7 +35,7 @@ wget http://adafruit-download.s3.amazonaws.com/libraspberrypi-bin-adafruit.deb
 wget http://adafruit-download.s3.amazonaws.com/libraspberrypi-dev-adafruit.deb
 wget http://adafruit-download.s3.amazonaws.com/libraspberrypi-doc-adafruit.deb
 wget http://adafruit-download.s3.amazonaws.com/libraspberrypi0-adafruit.deb
-wget http://adafruit-download.s3.amazonaws.com/raspberrypi-bootloader-adafruit-112613.deb
+wget http://adafruit-download.s3.amazonaws.com/raspberrypi-bootloader-adafruit-20140724-1.deb
 wget http://adafruit-download.s3.amazonaws.com/xinput-calibrator_0.7.5-1_armhf.deb
 sudo dpkg -i -B *.deb
 
