@@ -57,7 +57,7 @@ if [ -z "$( grep "echo 252 > /sys/class/gpio/export" /etc/rc.local )" ]; then
     append "echo 252 > /sys/class/gpio/export" /etc/rc.local
     append "echo 'out' > /sys/class/gpio/gpio252/direction" /etc/rc.local
     append "echo '1' > /sys/class/gpio/gpio252/value" /etc/rc.local
-    append "DISPLAY=:0.0 python /home/pi/Pi_time/Python/screen_control.py &" /etc/rc.local
+    append "DISPLAY=:0.0 python /home/pi/Pi_Time/Python/screen_control.py &" /etc/rc.local
     append "exit 0" /etc/rc.local
 fi
 
