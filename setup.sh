@@ -37,6 +37,9 @@ wget http://adafruit-download.s3.amazonaws.com/libraspberrypi-doc-adafruit.deb
 wget http://adafruit-download.s3.amazonaws.com/libraspberrypi0-adafruit.deb
 wget http://adafruit-download.s3.amazonaws.com/raspberrypi-bootloader-adafruit-20140724-1.deb
 wget http://adafruit-download.s3.amazonaws.com/xinput-calibrator_0.7.5-1_armhf.deb
+wget https://github.com/adafruit/PiTFT_Extras/raw/master/pitft_touch_cal.py
+sudo mkdir /etc/X11/xorg.conf.d/
+chmod +x pitft_touch_cal.py
 sudo dpkg -i -B *.deb
 
 sudo mv /usr/share/X11/xorg.conf.d/99-fbturbo.conf ./
