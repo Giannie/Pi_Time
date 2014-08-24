@@ -19,7 +19,7 @@ fi
 
 
 
-sudo apt-get update
+sudo apt-get update && sudo apt-get dist-upgrade
 sudo apt-get install mpc python-dev python-rpi.gpio python-pip htop elinks evtest tslib libts-bin python-gtk2 xinput
 sudo pip install python-crontab requests python-mpd2
 mkdir logs
@@ -76,5 +76,6 @@ fi
 cd Pi_Time
 sudo cp usr\ local\ bin/* /usr/local/bin/
 sudo cp 99-fbdev.conf /usr/share/X11/xorg.conf.d/
+
 
 

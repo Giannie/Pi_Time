@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
-from PIL import Image, ImageDraw
+try:
+    from PIL import Image, ImageDraw
+except:
+    pass
 import math
 import datetime
 
